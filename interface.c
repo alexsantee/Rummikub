@@ -14,7 +14,7 @@ int main()
     int nj;
     int vitoria=0;
 
-    setlocale(LC_ALL, "Portuguese");
+    setlocale(LC_CTYPE, "Portuguese");
 
     nj = menu_inicial();
     while(vitoria==0)
