@@ -2,31 +2,31 @@
 #include <stdlib.h>
 #include <locale.h>//para colocar a escrita em portugues;
 
+#include "baralho.h"
+
+#define LEN_NOME_ARQ 60//tamanho da string do nome do arquivo
+
 void clear();
 void pause();
 int menu_inicial();
 int jogo(int j);
+CARTA tipo_baralho();
 
 int main()
 {
-    //char resp;
-    int j=0;
-    int nj;
-    int vitoria=0;
+    int jogador;//atual jogador
+    int nj;//numero de jogadores
+    CARTA *baralho;
+
+    int vitoria=0;//variavel para determinar se alguem ganhou
 
     setlocale(LC_CTYPE, "Portuguese");
 
+    barralho= tipo_baralho(baralho);
     nj = menu_inicial();
-    while(vitoria==0)
+    for(jogador=0;vitoria==0;jogador++,jogador=jogador%nj)
     {
-        vitoria=jogo(j);
-        clear();
-        if(vitoria==0)
-            {
-                j++;
-                j=j%nj;
-                clear();
-            }
+        vitoria=turno(jogador);
         clear();
     }
     printf("O jogador %d foi o vencedor.\n",j+1);
@@ -52,10 +52,10 @@ void pause()
 	clear();
 }
 
-int menu_inicial()
+char menu_inicial()
 {
     char resp_inicial;//colocado em char para o programa não quebrar com resposta não numerica;
-    int i;
+    char nj;
 
     printf("Bem-vindo ao Rummikub.\n");
     do{
@@ -63,16 +63,16 @@ int menu_inicial()
     scanf(" %c",&resp_inicial);
     clear();
     }while(resp_inicial>'5'||resp_inicial<'1');
-    if(resp_inicial=='1')i=1;
-    if(resp_inicial=='2')i=2;
-    if(resp_inicial=='3')i=3;
-    if(resp_inicial=='4')i=4;
-    if(resp_inicial=='5')i=5;
+    if(resp_inicial=='1'){nj=1;}
+    if(resp_inicial=='2'){nj=2;}
+    if(resp_inicial=='3'){nj=3;}
+    if(resp_inicial=='4'){nj=4;}
+    if(resp_inicial=='5'){nj=5;}
 
-    return (i);
+    return (nj);
 }
 
-int jogo(int j)
+int turno(int j)
 {
 /*------------
 setor do loop do jogo;
@@ -86,4 +86,35 @@ falta as funções e as interfaces especificas das funções;
     scanf(" %d",&v);
 
     return (v);
+}
+
+CARTA *tipo_baralho(CARTA *baralho)
+{
+    char resp_baralho;
+
+    do{
+    printf("Você deseja usar um baralho aleatoria(1) ou importar um baralho(2).\n");
+    resp_baralho=getc(stdin);
+    }while(resp_baralho<'1'||resp_baralho>'2');
+    if(resp_baralho=='1')
+        {
+        baralho = cria_baralho();
+        embaralha(baralho);
+        printf("Baralho aleatorio criado.\n");
+        }
+    if(resp_baralho=='2')
+        {
+        char nome_arquivo[LEN_NOME_ARQ];
+        do  {
+            printf("Qual o nome do arquivo:(inclua o .txt !\n)");
+            fgets(nome_arquivo,LEN_NOME_ARQ,stdin);
+            baralho=cria_baralho_arq(nome_arquivo);
+            clear();
+            }while(baralho!=NULL);
+        printf("Baralho lido.\n");
+        }
+    pause();
+    clear();
+
+    return (baralho);
 }
