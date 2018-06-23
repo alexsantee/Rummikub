@@ -17,9 +17,9 @@ typedef struct carta CARTA;
 CARTA *cria_baralho();	//Cria lista com as cartas e retorna ponteiro para ela
 void embaralha(CARTA *baralho);	//Embaralha as cartas
 CARTA *cria_baralho_arq(const char *nome_arquivo);	//Lê baralho de arquivo
-CARTA sacar_carta(CARTA *baralho);	//Retira carta do topo do baralho
+CARTA *sacar_carta(CARTA *baralho);	//Retira carta do topo do baralho
 void swap(CARTA *a, CARTA *b);	//Troca duas cartas de posição
-
+void imprime_carta(CARTA c);
 
 struct carta
 {
@@ -147,27 +147,19 @@ CARTA *cria_baralho_arq(const char *nome_arquivo)
 	return baralho;
 }
 
-CARTA sacar_carta(CARTA *baralho)
+CARTA *sacar_carta(CARTA *baralho)
 {
-	//Essa função seleciona a carta no topo do baralho, substitui-a por
-	//vazio e retorna seu valor.
-	//Retorna CARTA vazio se não houver mais cartas.
-
-	CARTA tmp;
-	CARTA vazio;	//Para saber quando a carta foi usada
-	vazio.naipe = 0;
-	vazio.n = 0;
-	int i;
-	for (i=0;i<N_CARTAS;i++)
+	//Essa função recebe um baralho e retorna ponteiro para a última carta
+	//não usada.
+	//Retorna NULL caso o baralho tenha acabado.
+	
+	static int last = 0;
+	if(last<N_CARTAS)
 	{
-		tmp = baralho[i];
-		if(tmp.n!=vazio.n && tmp.naipe!=vazio.naipe)
-		{
-			baralho[i]=vazio;
-			return tmp;
-		}
+		return &(baralho[last++]);
 	}
-	return vazio;
+	else{return NULL;}
+	
 }
 
 void swap(CARTA *a, CARTA *b)
@@ -177,4 +169,9 @@ void swap(CARTA *a, CARTA *b)
 	tmp = *a;
 	*a = *b;
 	*b = tmp;
+}
+
+void imprime_carta(CARTA c)
+{
+	printf("%c%c", c.naipe, c.n);
 }
