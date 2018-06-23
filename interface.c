@@ -29,7 +29,7 @@ int main()
     setlocale(LC_CTYPE, "Portuguese"); //adapta a linguagem para portugues(acentos)
 
     baralho= tipo_baralho(baralho); //cria e torna o baralho
-    nj = pegaQuantidade_jogadores();
+    nj = Menu_nj();
     for(int i = 0; i < nj ; i++)
     {
         mao_jogador[i] = cria_mao_jogador( baralho );
@@ -37,7 +37,7 @@ int main()
 
     for(jogador=0;vitoria==0;jogador++,jogador=jogador%nj)
     {
-        vitoria=turno(jogador);
+        vitoria=turno(jogador,*mao_jogador[jogador],/* mesa */);
         clear();
     }
     printf("O jogador %d foi o vencedor.\n",j+1);
@@ -63,7 +63,7 @@ void pause()
 	clear();
 }
 
-int pegaQuantidade_jogadores()
+int Menu_nj()
 {
     char resp_inicial;//colocado em char para o programa não quebrar com resposta não numerica;
     int nj;
@@ -74,29 +74,98 @@ int pegaQuantidade_jogadores()
     scanf(" %c",&resp_inicial);
     clear();
     }while(resp_inicial>'5'||resp_inicial<'1');
-         if(resp_inicial=='1'){nj=1;}
-    else if(resp_inicial=='2'){nj=2;}
-    else if(resp_inicial=='3'){nj=3;}
-    else if(resp_inicial=='4'){nj=4;}
-    else if(resp_inicial=='5'){nj=5;}
+    nj=(resp_inicail - '0');
 
     return (nj);
 }
 
-int turno(int j)
+int turno(int j,CARTA *mao_jogador[jogador],/*tipomesa mesa */)
 {
-/*------------
-setor do loop do jogo;
-atualmente só funcionando para verificar a interface;
-falta as funções e as interfaces especificas das funções;
---------------*/
-    int v;
+    int vitoria;
+    int fim=0;
+    char resp_turno='1';
 
-    printf("******>>Versão de Teste<<******\n");
-    printf("Vitoria do jogador %d ?\n(Aperte 0 se não e qual outro valor se Sim\n",j+1);
-    scanf(" %d",&v);
+    printf("É a vez do jogador %d.\n",j+1);
+    pause();
+    clear();
 
-    return (v);
+    while(fim==0)
+    {
+        int movimentos;
+    /*  if(cartas_na_mao ==0)
+            {
+            fim++;
+            vitoria++;
+            }
+        else{*///tem que terminar o fechamente de chaves " } "
+        do{
+            /*  printf(mesa)*/
+            prinf("************************")
+            printf("Vez do jogador %d",j+1);
+            printf("Opções de ações:\");
+            prinf("1.jogar cartas da mão.");
+            printf("2.formar uma nova combinação.\n");
+            if(fim==0){printf("3.Compra do Baralho e terminar o turno.\n>>")}
+            if(fim!=0){printf("3.Terminar o turno\n>>");}
+            scanf("%c",&resp_turno);
+            clear();
+            }while(resp_turno>'3'||resp_turno<'1');
+        switch(resp_turno) {
+        case '1':
+            {
+            char n_cartas;
+            do{
+                clear();
+                printf("Quantas cartas?\n>>");
+                scanf("%c",&n_cartas);
+                }while(n_cartas<'0'/*||n_cartas< "cartas na mão" , max 9*/);
+            int aux;//usado para conversões momentaneas de char pra int;
+            aux=n_cartas - '0';
+            char posição[aux];
+            aux=0;//limpando para se utilizado novamente
+            for(char i='0';i<n_cartas;i++)
+            {
+                printf("posição da carta %c/%c",i+1,n_cartas);
+                scanf("%c",&posição[aux]);
+                aux++;
+            }
+            //função de verificação
+            //resposta se foi execultado o movimento ou o movimento era invalido
+            pause();
+            clear();
+            break;
+            }
+        case '2':
+            {
+                           char posição[3];
+            for(int i=0;i<3;i++)
+            {
+                printf("posição da carta %c/%d",i+1,3);
+                scanf("%c",&posição[i]);
+            }
+            //função de verificação
+            //resposta se foi execultado o movimento ou o movimento era invalido
+            pause();
+            clear();
+            break;
+            }
+        case '3':
+            {
+                if(movimentos==0)
+                {
+                    //função compra
+                    //printar carta comprada
+                    fim++;
+                    pause();
+                    clear();
+                }else{
+                    fim++;
+                    clear();
+                }
+            }
+        }
+    }
+    return (vitoria);
 }
 
 CARTA *tipo_baralho(CARTA *baralho)
@@ -133,7 +202,7 @@ CARTA *tipo_baralho(CARTA *baralho)
 CARTA *cria_mao_jogador( CARTA *baralho )
 //essa funcao cria a mao do jogador, retornando o ponteiro para ultima carta da mao (?)
 //lembre-se: quanto a carta nao existir --> naipe vale 0 e valor vale 0
-{      
+{
     CARTA *mao;
 
     //lancando as cartas do baralho para a mao do usuario
@@ -182,21 +251,3 @@ CARTA *cria_mesa()
 
     return mesa;
 }
-
-void jogada(CARTA *mao, CARTA *mesa)
-//essa funcao retira a carta da mao do usuario e a coloca na mesa
-{
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
