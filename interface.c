@@ -79,7 +79,7 @@ int Menu_nj()
     return (nj);
 }
 
-int turno(int j,CARTA *mao_jogador[jogador],/*tipomesa mesa */)
+int turno(int j,CARTA *mao_jogador[jogador],/*tipo_mesa mesa */)
 {
     int vitoria;
     int fim=0;
@@ -99,7 +99,7 @@ int turno(int j,CARTA *mao_jogador[jogador],/*tipomesa mesa */)
             }
         else{*///tem que terminar o fechamente de chaves " } "
         do{
-            /*  printf(mesa)*/
+            printa_mesa;
             prinf("************************")
             printf("Vez do jogador %d",j+1);
             printf("Opções de ações:\");
@@ -168,10 +168,28 @@ int turno(int j,CARTA *mao_jogador[jogador],/*tipomesa mesa */)
     return (vitoria);
 }
 
+void printa_mesa(MESA *mesa)
+{
+    int i;
+    MESA *print_mesa;
+    print_mesa = mesa;
+    
+    while(print_mesa.first != NULL)//loop para mostrar um conjunto
+        {
+        printf("Conjunto %d->  ",i+1);
+        while(CARTA != NULL)//loop pra mostrar as cartas do conjunto
+            {
+                printf("%c%c  ",*CARTA.naipe,*CARTA.n);
+                *print_mesa.first.carta = *print_mesa.first.next;
+            }
+        print_mesa.first = print_mesa.next;//passar para outro conjunto
+        putchar("\n").
+        }
+}
+
 CARTA *tipo_baralho(CARTA *baralho)
 {
     char resp_baralho;
-
     do{
     printf("Você deseja usar um baralho aleatorio[1] ou importar um baralho[2]?\n>> ");
     resp_baralho=getc(stdin);
@@ -195,18 +213,16 @@ CARTA *tipo_baralho(CARTA *baralho)
         }
     pause();
     clear();
-
     return (baralho);
 }
-
 CARTA *cria_mao_jogador( CARTA *baralho )
 //essa funcao cria a mao do jogador, retornando o ponteiro para ultima carta da mao (?)
 //lembre-se: quanto a carta nao existir --> naipe vale 0 e valor vale 0
 {
     CARTA *mao;
-
     //lancando as cartas do baralho para a mao do usuario
-    for(int i = 0; i < NUM_CARTAS; i++){
+    for(int i = 0; i < NUM_CARTAS; i++)
+        {
         //todo comeco de loop aloca memoria para a nova carta
         mao = (CARTA *)malloc(sizeof(CARTA));
         //transpondo os valores da ultima carta do baralho para a mao
@@ -224,30 +240,5 @@ CARTA *cria_mao_jogador( CARTA *baralho )
             baralho = baralho->next;
         }
     }
-
     return mao;
-}
-
-CARTA *cria_mesa()
-//essa funcao cria a mesa no comeco do jogo
-{
-    CARTA *mesa;
-
-    //lancando as cartas do baralho para a mesa
-    for(int i = 0; i < NUM_CARTAS_MESA; i++){
-        //todo comeco de loop aloca memoria para a nova carta da mesa
-        mesa = (CARTA *)malloc(sizeof(CARTA));
-        //transpondo os valores da ultima carta do baralho para a mesa
-        mesa->naipe = baralho->naipe;
-        mesa->valor = baralho->valor;
-        //inicializando a proxima carta da mesa como sendo nula
-        mesa->next = NULL;
-        //transpondo o proximo loop para a proxima carta da mesa...
-        if(i != NUM_CARTAS_MESA - 1){
-            mesa = mesa->next;
-            baralho = baralho->next;
-        }
-    }
-
-    return mesa;
 }
