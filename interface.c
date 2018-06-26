@@ -79,11 +79,11 @@ int Menu_nj()
     return (nj);
 }
 
-int turno(int j,CARTA *mao_jogador[jogador],/*tipo_mesa mesa */)
+int turno(int j,CARTA *mao_jogador[jogador],MESA *mesa)
 {
     int vitoria;
-    int fim=0;
-    char resp_turno='1';
+    int fim=0;//flag para permitir passar o turno
+    char resp_turno;
 
     printf("É a vez do jogador %d.\n",j+1);
     pause();
@@ -167,19 +167,18 @@ int turno(int j,CARTA *mao_jogador[jogador],/*tipo_mesa mesa */)
     }
     return (vitoria);
 }
-
 void printa_mesa(MESA *mesa)
 {
-    int i;
-    MESA *print_mesa;
-    print_mesa = mesa;
-    
-    while(print_mesa.first != NULL)//loop para mostrar um conjunto
+    int i;//contador de conjunto
+    MESA *print_mesa;//ponteiro usar ler os valores nos endereços sem reprisar, no final, volta o ponteiro para a possição inicial
+    print_mesa = mesa;//copiando o endereço
+
+    while(*print_mesa.first != NULL)//loop para mostrar um conjunto
         {
-        printf("Conjunto %d->  ",i+1);
-        while(CARTA != NULL)//loop pra mostrar as cartas do conjunto
+        printf("Conjunto %d ->",i+1);
+        while(*print_mesa.first.carta != NULL)//loop pra mostrar as cartas do conjunto
             {
-                printf("%c%c  ",*CARTA.naipe,*CARTA.n);
+                printf("  %c%c",*CARTA.naipe,*CARTA.n);//tamanho de caracteres na tela:4
                 *print_mesa.first.carta = *print_mesa.first.next;
             }
         print_mesa.first = print_mesa.next;//passar para outro conjunto
