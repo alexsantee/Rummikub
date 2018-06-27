@@ -8,7 +8,7 @@
 	char n;
 	CARTA *next;
     };
-int checagrupo(CARTA* a){
+int checagrupo(CARTA* a){//recebe um pontero para a primeira carta do grupo e retorna 0 (grupo invalido) ou 1(grupo valido)
     int c//contador
     if(a->n==a->next->n){
     while(a->next,c++){
