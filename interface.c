@@ -50,7 +50,7 @@ void clear()
 	#ifdef WIN32
    		system("CLS");
 	#else
-        system("clear");
+        	system("clear");
 	#endif
 }
 
@@ -100,10 +100,10 @@ int turno(int j,CARTA *mao_jogador[jogador],MESA *mesa)
         else{*///tem que terminar o fechamente de chaves " } "
         do{
             printa_mesa;
-            prinf("************************")
+            printf("************************")
             printf("Vez do jogador %d",j+1);
             printf("Opções de ações:\");
-            prinf("1.jogar cartas da mão.");
+            printf("1.jogar cartas da mão.");
             printf("2.formar uma nova combinação.\n");
             if(fim==0){printf("3.Compra do Baralho e terminar o turno.\n>>")}
             if(fim!=0){printf("3.Terminar o turno\n>>");}
