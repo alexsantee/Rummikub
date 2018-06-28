@@ -23,5 +23,6 @@
 //define da mesa
 
 //define da mao
+#define N_MAO_INICIAL 7//numero de cartas na mão inicial
 
 #endif // DEFINES_H_INCLUDED
