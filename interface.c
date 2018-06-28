@@ -18,29 +18,30 @@ CARTA *cria_mao_jogador( CARTA *baralho );
 
 int main()
 {
-    int jogador;//atual jogador
     int nj;//numero de jogadores
     CARTA *baralho;
+	MAO *mao_jogador;
 
-    int vitoria=0;//variavel para determinar se alguem ganhou
+    enum estado_jogo(sem_carda=-1,em_andamento,vitoria=1)//variavel para determinar se alguem ganhou
 
     setlocale(LC_CTYPE, "Portuguese"); //adapta a linguagem para portugues(acentos)
 
     baralho= Inicia_Baralho(); //cria e torna o baralho
     nj = Menu_nj();
     
-    for(int i = 0; i < nj ; i++)//loop cria mão do jogador
-    {
-        for()
-        {
-            mao_jogador.carta = sacar_carta(*baralho)
+    mao_jogador = inicia_mao(nj,*baralho);
 
-    for(jogador=0;vitoria==0;jogador++,jogador=jogador%nj)
+    while(estado_jogo==0);
     {
-        vitoria=turno(jogador,*mao_jogador[jogador],*mesa);
+        estado_jogo=turno(*mao_jogador,*mesa);
         clear();
     }
-    printf("O jogador %d foi o vencedor.\n",nj+1);
+	if(estado_jogo==1)
+		{
+    	printf("O jogador %d foi o vencedor.\n",(mao_jogador->num_jogador)+1);
+		}else{
+		//executa verificação de vencedor
+		}
     pause();
     return (0);
 }
@@ -79,13 +80,13 @@ int Menu_nj()
     return (nj);
 }
 
-int turno(int j,CARTA *mao_jogador[int jogador],MESA *mesa)
+int turno(MAO *mao_jogador;MESA *mesa)
 {
     int vitoria;
     int fim=0;//flag para permitir passar o turno
     char resp_turno;
 
-    printf("É a vez do jogador %d.\n",j+1);
+    printf("É a vez do jogador %d.\n",(mao_jogador->num_jogador)+1);
     pause();
     clear();
 
