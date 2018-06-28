@@ -13,9 +13,11 @@ void clear();
 void pause();
 int pegaQuantidade_jogadores();
 int jogo(int j);
-CARTA tipo_baralho(); // determina o tipo de baralho, ja criando ele
+int Menu_nj();
+int turno(int j,CARTA *mao_jogador[int jogador],MESA *mesa);
+CARTA *Inicia_Baralho(); // determina o tipo de baralho, ja criando ele
                       // ou pegando ele de algum arquivo que queiramos
-CARTA cria_mao_jogador( CARTA *baralho );
+CARTA *cria_mao_jogador( CARTA *baralho );
 
 int main()
 {
@@ -28,7 +30,7 @@ int main()
 
     setlocale(LC_CTYPE, "Portuguese"); //adapta a linguagem para portugues(acentos)
 
-    baralho= tipo_baralho(baralho); //cria e torna o baralho
+    baralho= Inicia_Baralho(); //cria e torna o baralho
     nj = Menu_nj();
     for(int i = 0; i < nj ; i++)
     {
@@ -37,10 +39,10 @@ int main()
 
     for(jogador=0;vitoria==0;jogador++,jogador=jogador%nj)
     {
-        vitoria=turno(jogador,*mao_jogador[jogador],/* mesa */);
+        vitoria=turno(jogador,*mao_jogador[jogador],*mesa);
         clear();
     }
-    printf("O jogador %d foi o vencedor.\n",j+1);
+    printf("O jogador %d foi o vencedor.\n",nj+1);
     pause();
     return (0);
 }
@@ -74,12 +76,12 @@ int Menu_nj()
     scanf(" %c",&resp_inicial);
     clear();
     }while(resp_inicial>'5'||resp_inicial<'1');
-    nj=(resp_inicail - '0');
+    nj=(resp_inicial - '0');
 
     return (nj);
 }
 
-int turno(int j,CARTA *mao_jogador[jogador],MESA *mesa)
+int turno(int j,CARTA *mao_jogador[int jogador],MESA *mesa)
 {
     int vitoria;
     int fim=0;//flag para permitir passar o turno
@@ -102,11 +104,11 @@ int turno(int j,CARTA *mao_jogador[jogador],MESA *mesa)
             printa_mesa;
             printf("************************");
             printf("Vez do jogador %d",j+1);
-            printf("Opções de ações:\");
+            printf("Opções de ações:\n");
             printf("1.jogar cartas da mão.");
             printf("2.formar uma nova combinação.\n");
             if(fim==0){printf("3.Compra do Baralho e terminar o turno.\n>>");}
-            if(fim!=0){printf("3.Terminar o turno\n>>");}
+            else{printf("3.Terminar o turno\n>>");}
             scanf("%c",&resp_turno);
             clear();
             }while(resp_turno>'3'||resp_turno<'1');
@@ -172,7 +174,6 @@ void printa_mesa(MESA *mesa)
     int i;//contador de conjunto
     MESA *print_mesa;//ponteiro usar ler os valores nos endereços sem reprisar, no final, volta o ponteiro para a possição inicial
     print_mesa = mesa;//copiando o endereço
-
     while(*print_mesa.first != NULL)//loop para mostrar um conjunto
         {
         printf("Conjunto %d ->",i+1);
@@ -185,13 +186,14 @@ void printa_mesa(MESA *mesa)
         putchar("\n").
         }
 }
-
-CARTA *tipo_baralho(CARTA *baralho)
+CARTA *Inicia_Baralho()
 {
     char resp_baralho;
+    CARTA *baralho;
     do{
     printf("Você deseja usar um baralho aleatorio[1] ou importar um baralho[2]?\n>> ");
     resp_baralho=getc(stdin);
+    clear();
     }while(resp_baralho<'1'||resp_baralho>'2');
     if(resp_baralho=='1')
         {
