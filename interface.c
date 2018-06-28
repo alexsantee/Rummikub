@@ -3,9 +3,10 @@
 #include <locale.h>//para colocar a escrita em portugues;
 
 #include "baralho.h"
+#include "mesa.h"
 
 #define LEN_NOME_ARQ 60//tamanho da string do nome do arquivo
-#define MAX_JOGADORES 5
+#define MAX_JOGADORES '5'//numero maximo de jogadores{1-9},COLOCAR EM CARCTER
 #define NUM_CARTAS 14
 #define NUM_CARTAS_MESA 10
 
@@ -14,7 +15,7 @@ void pause();
 int pegaQuantidade_jogadores();
 int jogo(int j);
 int Menu_nj();
-int turno(int j,CARTA *mao_jogador[int jogador],MESA *mesa);
+int turno(int j,CARTA *mao_jogador[int jogador],MESA *mesa);//--------mexer
 CARTA *Inicia_Baralho(); // determina o tipo de baralho, ja criando ele
                       // ou pegando ele de algum arquivo que queiramos
 CARTA *cria_mao_jogador( CARTA *baralho );
@@ -24,7 +25,6 @@ int main()
     int jogador;//atual jogador
     int nj;//numero de jogadores
     CARTA *baralho;
-    CARTA *mao_jogador[MAX_JOGADORES];
 
     int vitoria=0;//variavel para determinar se alguem ganhou
 
@@ -32,10 +32,12 @@ int main()
 
     baralho= Inicia_Baralho(); //cria e torna o baralho
     nj = Menu_nj();
-    for(int i = 0; i < nj ; i++)
+    
+    for(int i = 0; i < nj ; i++)//loop cria mão do jogador
     {
-        mao_jogador[i] = cria_mao_jogador( baralho );
-    }
+        for()
+        {
+            mao_jogador.carta = sacar_carta(*baralho)
 
     for(jogador=0;vitoria==0;jogador++,jogador=jogador%nj)
     {
@@ -75,7 +77,7 @@ int Menu_nj()
     printf("Quantos jogadores(1-5):\n");
     scanf(" %c",&resp_inicial);
     clear();
-    }while(resp_inicial>'5'||resp_inicial<'1');
+    }while(resp_inicial>MAX_JOGADORES||resp_inicial<'1');
     nj=(resp_inicial - '0');
 
     return (nj);
@@ -171,21 +173,23 @@ int turno(int j,CARTA *mao_jogador[int jogador],MESA *mesa)
 }
 void printa_mesa(MESA *mesa)
 {
-    int i;//contador de conjunto
+    int i=0;//contador de conjunto
     MESA *print_mesa;//ponteiro usar ler os valores nos endereços sem reprisar, no final, volta o ponteiro para a possição inicial
-    print_mesa = mesa;//copiando o endereço
-    while(*print_mesa.first != NULL)//loop para mostrar um conjunto
+    print_mesa = mesa;//copiando o endereço para não prescissar depois voltar para a posição inicial
+    while(print_mesa.first != NULL)//loop para mostrar um conjunto
         {
         printf("Conjunto %d ->",i+1);
-        while(*print_mesa.first.carta != NULL)//loop pra mostrar as cartas do conjunto
+        while(print_mesa.first.carta != NULL)//loop pra mostrar as cartas do conjunto
             {
-                printf("  %c%c",*CARTA.naipe,*CARTA.n);//tamanho de caracteres na tela:4
+                printf("  %c%c",CARTA->naipe,CARTA->n);//tamanho de caracteres na tela:4
                 print_mesa.first.carta = print_mesa.first.next;
             }
         print_mesa.first = print_mesa.next;//passar para outro conjunto
         putchar("\n").
+        i++;
         }
 }
+
 CARTA *Inicia_Baralho()
 {
     char resp_baralho;
@@ -215,31 +219,4 @@ CARTA *Inicia_Baralho()
     pause();
     clear();
     return (baralho);
-}
-CARTA *cria_mao_jogador( CARTA *baralho )
-//essa funcao cria a mao do jogador, retornando o ponteiro para ultima carta da mao (?)
-//lembre-se: quanto a carta nao existir --> naipe vale 0 e valor vale 0
-{
-    CARTA *mao;
-    //lancando as cartas do baralho para a mao do usuario
-    for(int i = 0; i < NUM_CARTAS; i++)
-        {
-        //todo comeco de loop aloca memoria para a nova carta
-        mao = (CARTA *)malloc(sizeof(CARTA));
-        //transpondo os valores da ultima carta do baralho para a mao
-        mao->naipe = baralho->naipe;
-        mao->valor = baralho->valor;
-        //inicializando a proxima carta da mao como sendo nula
-        mao->next = NULL;
-        //transpondo o proximo loop para a proxima carta da mao
-        /*
-            obs: quando estiver no ultimo loop, ele nao passa para a proxima
-                 carta, pois se passasse, iria retornar a carta nula
-        */
-        if(i != NUM_CARTAS - 1){
-            mao = mao->next;
-            baralho = baralho->next;
-        }
-    }
-    return mao;
 }
