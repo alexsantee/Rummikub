@@ -7,8 +7,8 @@ O programa consiste em uma versão para C do famoso jogo Rummikub, onde o objeti
 Trabalho 4 por:  
 Alex Santee /
 Leonardo (INSIRA SEU SOBRENOME AQUI)/
-(TAMBEM NAO SEI O NOME DO CONTROL KKK)/
-(NEM DO GENERAL KKJKJKJ)/
+Arthur (TAMBEM NAO SEI O NOME DO CONTROL KKK)/
+Felipe Antonio Ribeiro Bordin
 Vitor Caires
 
 --------

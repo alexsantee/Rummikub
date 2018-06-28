@@ -179,7 +179,7 @@ void printa_mesa(MESA *mesa)
         while(*print_mesa.first.carta != NULL)//loop pra mostrar as cartas do conjunto
             {
                 printf("  %c%c",*CARTA.naipe,*CARTA.n);//tamanho de caracteres na tela:4
-                *print_mesa.first.carta = *print_mesa.first.next;
+                print_mesa.first.carta = print_mesa.first.next;
             }
         print_mesa.first = print_mesa.next;//passar para outro conjunto
         putchar("\n").
