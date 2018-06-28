@@ -4,11 +4,7 @@
 
 #include "baralho.h"
 #include "mesa.h"
-
-#define LEN_NOME_ARQ 60//tamanho da string do nome do arquivo
-#define MAX_JOGADORES '5'//numero maximo de jogadores{1-9},COLOCAR EM CARCTER
-#define NUM_CARTAS 14
-#define NUM_CARTAS_MESA 10
+#include "defines.h"
 
 void clear();
 void pause();
