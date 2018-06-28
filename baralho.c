@@ -2,15 +2,7 @@
 #include <stdio.h>	//Para comandos de arquivo e saída de erros
 #include <time.h>	//Fornece seed para funções aleatórias
 
-#define N_BARALHOS 2	//Numero de baralhos usados
-#define N_CORINGAS (2*N_BARALHOS)	//Número de coringas
-#define V_CORINGA '*'	//Valor numérico que representa os coringas
-#define N_NUM_CARTAS 13	//Números de valores numéricos diferentes
-#define N_NAIPES 4	//Quantos naipes existem na próxima lista
-#define NAIPES {'!', '@', '#', '$'}	//Naipes utilizados
-#define N_CARTAS (N_BARALHOS*N_NUM_CARTAS*N_NAIPES + N_CORINGAS)	//Número total de cartas
-
-#define N_EMB 1000	//Número de trocas durante o embaralhamento
+#include "defines.h"
 
 typedef struct carta CARTA;
 
