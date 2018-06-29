@@ -1,61 +1,77 @@
+/*
+------------------------------------------------------------------------------
+    A função não verifica os coringas!!!
+------------------------------------------------------------------------------
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 
 typedef struct conjunto CONJ;
 typedef struct carta CARTA;
+
 struct conjunto
 {
 	CARTA *first;
 	CONJ *next;
 };
 
+struct carta
+{
+char naipe;
+char n;
+CARTA *next;
+};
 
-  struct carta
+int checagrupo(CONJ* conj){
+    //recebe um ponteiro para o grupo ORDENADO e
+    //retorna 0 (grupo invalido) ou 1(grupo valido)
+
+    int i=0;//contador
+	CARTA* c;
+	c=conj->first;
+
+    if(c->n==c->next->n)    //Caso números iguais de naipes diferentes
     {
-	char naipe;
-	char n;
-	CARTA *next;
-    };
-int checagrupo(CONJ* d){//recebe um pontero para o grupo ORDENADO e retorna 0 (grupo invalido) ou 1(grupo valido)
-    int c=0;//contador
-	CARTA* a;
-	a=d->first;
-    if(a->n==a->next->n)
+        while(c->next!=NULL)
         {
-
-        while(a->next!=NULL)
-        {
-
-            if(a->n==a->next->n&&c<4)
+            if(c->n==c->next->n)
             {
-                a=a->next;
-                c++;
+                c=c->next;
+                i++;
             }
             else
             {
-            return 0;
+               return 0;
             }
         }
-    if(0!=c&&c!=2){
-        return 0;
-    }
 
-
-    }
-    else{//checa sequencias
-        while(a->next!=NULL)
-            {
-        if((a->naipe==a->next->naipe)&&((a->n)+1==a->next->n))
-        {//mesmo naipe em ambos e valor do primeiro ser um antes do segundo(1  2,2 3)
-                a=a->next;
-        }
-        else
+        if(i<2)    //Número insuficiente de cartas
         {
             return 0;
         }
+    }
+
+    else    //Caso sequência numérica
+    {
+        while(c->next!=NULL)
+        {
+            if( (c->naipe==c->next->naipe) && ( (c->n)+1==c->next->n ) )
+            {//mesmo naipe em ambos e valor do primeiro ser um antes do segundo(1  2,2 3)
+                    c=c->next;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        if(i<2)    //Número insuficiente de cartas
+        {
+            return 0;
         }
     }
 
-return 1;
+	return 1;
 
 }
