@@ -21,11 +21,12 @@ MAO *inicia_mao(int nj,CARTA *baralho)
     MAO *mao_inicial;
     MAO *mao_atual;
 
-
-    mao_inicial = calloc(1,sizeof(MAO));
+    
+    mao_inicial = calloc(1,sizeof(MAO)); //alocando memoria, zerando os valores da mao inicial(mao vazia)
     if(mao_inicial==NULL)
     {
-        printf("Falta memoria!.");
+        printf("[!]Falta memoria[!]\n");
+        pause();
         exit(1);
     }
     mao_inicial->num_jogador=0;
@@ -33,10 +34,11 @@ MAO *inicia_mao(int nj,CARTA *baralho)
 
     for(i=1;i<nj;i++)	//identificando o numero do jogador
     {//add_carta_mao???
-        mao_atual->next=calloc(1,sizeof(MAO));
+        mao_atual->next=calloc(1,sizeof(MAO)); //faz com que a mao do proximo jogador esteja alocada, porem zerada(mao vazia)
         if(mao_atual->next==NULL)
         {
-            printf("Falta memoria!.");
+            printf("[!]Falta memoria[!]\n");
+            pause();
             exit(1);
         }
         mao_atual->next->num_jogador=i;
@@ -68,12 +70,12 @@ void add_carta_mao(MAO *mao,CARTA *baralho)
 	c = c->next;
     if(c->next==NULL)
     {
-        printf("Sem carta para comprar.\n");
+        printf("[!]Fim do baralho, sem cartas para comprar[!]\n");
         pause();
         clear();
     }else
         {
-        printf("Você comprou a carta ");
+        printf("Voce comprou a carta ");
         imprime_carta(*c);
         putchar('\n');
         pause();
