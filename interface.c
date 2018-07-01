@@ -170,6 +170,7 @@ int turno(MAO *mao_jogador;MESA *mesa)
             }
         }
     }
+	//Mudar "da_mesa" das cartas na mesa ao final de cada turno
     return (vitoria);
 }
 

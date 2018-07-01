@@ -17,6 +17,7 @@ struct carta
 {
 	char naipe;
 	char n;
+	int da_mesa;	//Flag para que o jogador não pegue carta da mesa para si
 	CARTA *next;	//Para encadeamentos na mão e na mesa
 };
 

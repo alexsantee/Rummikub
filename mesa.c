@@ -2,6 +2,7 @@
 #include <stdio.h>	//Imprime erros
 
 #include "baralho.h"	//Definição de carta
+#include "defines.h"
 
 typedef struct conjunto CONJ;
 typedef struct mesa MESA;
@@ -12,6 +13,7 @@ void apaga_mesa(MESA *mesa);	//Limpa memória usada pela mesa
 CONJ *cria_conjunto();	//Inicializa um conjunto e retorna ponteiro para ele
 void insere_no_conjunto(CARTA *c, int pos, CONJ *conj);	//Coloca carta em conj
 void apaga_conjunto(int pos, MESA *mesa);	//limpa conj na posição pos da mesa
+int checa_conjunto(CONJ* conj);	//Recebe conjunto e retorna a validade dele
 
 struct conjunto
 {
@@ -156,4 +158,44 @@ void apaga_conjunto(int pos, MESA *mesa)
 	tmp = conj->next;
 	conj->next = conj->next->next;
 	free(tmp);
+}
+
+int checa_conjunto(CONJ* conj){
+    //recebe um ponteiro para o grupo ORDENADO e
+    //retorna falso (grupo invalido) ou verdadeiro (grupo valido)
+
+    int mesmo_naipe = 1;
+    int seq_numerica = 1;
+    char naipe_da_seq = '\0';
+    char num_esperado = '\0';
+    int tam_conj = 0;
+    CARTA *c;
+    c = conj->first;
+
+    while(c != NULL)
+    {
+        //Inicia a sequência mesmo que o conjunto comece por n coringas
+        if (num_esperado == '\0' && c->n != V_CORINGA)
+        {
+            num_esperado = c->n;
+        }
+        if (naipe_da_seq == '\0' && c->naipe != V_CORINGA)
+        {
+            naipe_da_seq = c->naipe;
+        }
+
+        if(num_esperado != c->n && c->n != V_CORINGA)
+        {seq_numerica = 0;}
+        if(naipe_da_seq != c->naipe && c->naipe != V_CORINGA)
+        {mesmo_naipe = 0;}
+
+        if(num_esperado == '9') {num_esperado = 'A';}
+        else if(num_esperado != '\0') {num_esperado++;}
+        tam_conj++;
+        c = c->next;
+    }
+
+    if(tam_conj < MIN_CONJ || tam_conj > MAX_CONJ) {return 0;}
+
+    return (mesmo_naipe || seq_numerica);
 }
