@@ -4,83 +4,103 @@
 #include "defines.h"
 #include "baralho.h"
 
-//passar parte do add_carta_mao para a interface
+//passar parte do add_carda_mao para a interface
 
 typedef struct mao MAO;
 
-struct mao
+struct mao//é uma lista encateada ciclica
 {
-    int num_jogador;
+    int num_jogador;//identificar o numero do jogador
     CARTA *first;
-    MAO *next;	//Lista encadeada cíclica
+    MAO *next;
 };
 
 MAO *inicia_mao(int nj,CARTA *baralho)
 {
     int i;
-    MAO *mao_inicial;
-    MAO *mao_atual;
+    MAO *mao;
+    MAO *inicio;
 
-    
-    mao_inicial = calloc(1,sizeof(MAO)); //alocando memoria, zerando os valores da mao inicial(mao vazia)
-    if(mao_inicial==NULL)
+    mao=calloc(1,sizeof(MAO));
+    if(mao_atual==NULL)
     {
-        printf("[!]Falta memoria[!]\n");
-        pause();
+        printf("Falta memoria!.");
         exit(1);
     }
-    mao_inicial->num_jogador=0;
-    mao_atual = mao_inicial;
-
-    for(i=1;i<nj;i++)	//identificando o numero do jogador
-    {//add_carta_mao???
-        mao_atual->next=calloc(1,sizeof(MAO)); //faz com que a mao do proximo jogador esteja alocada, porem zerada(mao vazia)
-        if(mao_atual->next==NULL)
-        {
-            printf("[!]Falta memoria[!]\n");
-            pause();
-            exit(1);
-        }
-        mao_atual->next->num_jogador=i;
-        mao_atual=mao_atual->next;
-    }
-
-    mao_atual->next=mao_inicial;	//Fecha o ciclo da lista encadeada
-    mao_atual=mao_inicial;
-//--------------------ESSE TRECHO NÃO FUNCIONA-----------------------
-    for(i=0;i<(nj*N_MAO_INICIAL);i++)
+    inicio=mao;
+    for(i=0;i++;i<nj-1)//loop para iniciar o encadeamento
     {
-        mao_atual->first=sacar_carta(baralho);
-        mao_atual->first=mao_atual->first->next;
-        mao_atual=mao_atual->next;
+        mao=encadeia(mao);
     }
-//-------------------------------------------------------------------
-    return mao_atual;
+    mao->next=inicio;
+    mao=incio;
+    for(i=0;i++;i<nj)//loop maracando os jogadores
+    {
+        mao->num_jogadores=i;
+        mao->carta=NULL;
+        mao=mao->next;
+    }
+    for(i=0;i++;i<N_MAO_INICIAL-*nj)//distribuindo as cartas na mão
+    {
+        add_carda_mao(mao,baralho);
+        mao=mao->next;
+    }
+    return (mao);
 }
 
-void add_carta_mao(MAO *mao,CARTA *baralho)
+MAO *encadeia(MAO *mao)
 {
-    CARTA *c;
-    c = mao->first;
-    while(c->next!=NULL)
+    MAO *nova_mao;
+    nova_mao=calloc(1,sizeof(MAO));
+    if(nova_mao==NULL)
     {
-        c=c->next;
+        printf("Falha na encadeação!");
+        exit(0);
+    }else{
+        mao->next=nova_mao;
+        nova_mao->next=NULL;
     }
-    c->next=sacar_carta(baralho);
-	c = c->next;
-    if(c->next==NULL)
-    {
-        printf("[!]Fim do baralho, sem cartas para comprar[!]\n");
-        pause();
-        clear();
-    }else
-        {
-        printf("Voce comprou a carta ");
-        imprime_carta(*c);
-        putchar('\n');
-        pause();
-        clear();
-        }
+    return (nova_mao);
 }
 
-//void remove_carta()
+
+void add_carda_mao(MAO *mao,CARTA *baralho)
+{
+    CARTA carta;
+    carta=mao->first;
+    while(carta!=NULL)
+    {
+        carta=carta->next;
+    }
+    carda=sacar_carta(baralho);
+    if(carda==NULL)
+    {
+        printf("Não tem mais carta no baralho.");
+    }else{
+        carda->next=NULL;
+        printf("A carda comprada foi: %c%c.",carta->naipe,carta->n);
+    }
+    pause();
+    clear();
+}
+
+
+void remove_carta(int posicao,MAO *mao)//começa no pisição 0 e verificar antes se a posição é valida
+{
+    CARTA *copia;
+
+    if(posica==0)
+    {
+        copia=mao->first;
+        mao->first=copia->next;
+    }else{
+        for(i=1;i++;i<posicao)
+        {
+            mao=mao->next;
+        }
+        copia=mao->next;
+        mao->next=copia->next;
+    }
+    copia->next=NULL;
+    free(copia);
+}
