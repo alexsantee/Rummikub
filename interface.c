@@ -21,8 +21,8 @@ int main()
     CARTA *baralho; //struct dos elementos que vao compor o baralho
 	MAO *mao_jogador; //struct de elementos que compoe a mao do jogador
 
-    enum estado_jogo(sem_carta=-1,em_andamento,vitoria=1)//variavel para determinar se alguem ganhou
-
+    enum estado_jogo(sem_carta=-1,em_andamento=0,vitoria=1)//variavel para determinar se alguem ganhou
+	    
     setlocale(LC_CTYPE, "Portuguese"); //adapta a linguagem para portugues(acentos)
 
     baralho= Inicia_Baralho(); //cria e torna o baralho
@@ -128,11 +128,11 @@ int turno(MAO *mao_jogador;MESA *mesa)
                     }while(n_cartas<'0'/*||n_cartas< "cartas na mão" , max 9*/);
                 int aux;//usado para conversões momentaneas de char pra int;
                 aux=n_cartas - '0';
-                char posição[aux];
+                char posicao[aux];
                 aux=0;//limpando para ser utilizado novamente
                 for(char i='0';i<n_cartas;i++){
                     printf("posição da carta %c/%c",i+1,n_cartas);
-                    scanf("%c",&posição[aux]);
+                    scanf("%c",&posicao[aux]);
                     aux++;
                 }
                 //função de verificação
@@ -146,7 +146,7 @@ int turno(MAO *mao_jogador;MESA *mesa)
                 char posição[3];
                 for(int i=0;i<3;i++){
                     printf("posição da carta %c/%d",i+1,3);
-                    scanf("%c",&posição[i]);
+                    scanf("%c",&posicao[i]);
                 }
                 //função de verificação
                 //resposta se foi executado o movimento ou o movimento era invalido
@@ -180,16 +180,16 @@ void printa_mesa(MESA *mesa)
     int i=0;//contador de conjunto
     MESA *print_mesa;//ponteiro usar ler os valores nos endereços sem reprisar, no final, volta o ponteiro para a posição inicial
     print_mesa = mesa;//copiando o endereço para não precisar depois voltar para a posição inicial
-    while(print_mesa.first != NULL)//loop para mostrar um conjunto
+    while(print_mesa->first != NULL)//loop para mostrar um conjunto
         {
         printf("Conjunto %d ->",i+1);
-        while(print_mesa.first.carta != NULL)//loop pra mostrar as cartas do conjunto
+        while(print_mesa->first.carta != NULL)//loop pra mostrar as cartas do conjunto
             {
                 printf("  %c%c",CARTA->naipe,CARTA->n);//tamanho de caracteres na tela:4
-                print_mesa.first.carta = print_mesa.first.next;
+                print_mesa->first.carta = print_mesa->first.next;
             }
-        print_mesa.first = print_mesa.next;//passar para outro conjunto
-        putchar("\n").
+        print_mesa->first = print_mesa->next;//passar para outro conjunto
+        putchar("\n");
         i++;
         }
 }
