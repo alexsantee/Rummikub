@@ -4,11 +4,11 @@
 #include "defines.h"
 #include "baralho.h"
 
-//passar parte do add_carda_mao para a interface
+//passar parte do add_carta_mao para a interface
 
 typedef struct mao MAO;
 
-struct mao//é uma lista encateada ciclica
+struct mao//Ã© uma lista encadeada ciclica
 {
     int num_jogador;//identificar o numero do jogador
     CARTA *first;
@@ -34,15 +34,15 @@ MAO *inicia_mao(int nj,CARTA *baralho)
     }
     mao->next=inicio;
     mao=incio;
-    for(i=0;i++;i<nj)//loop maracando os jogadores
+    for(i=0;i++;i<nj)//loop marcando os jogadores
     {
         mao->num_jogadores=i;
         mao->carta=NULL;
         mao=mao->next;
     }
-    for(i=0;i++;i<N_MAO_INICIAL-*nj)//distribuindo as cartas na mão
+    for(i=0;i++;i<N_MAO_INICIAL-*nj)//distribuindo as cartas na mÃ£o
     {
-        add_carda_mao(mao,baralho);
+        add_carta_mao(mao,baralho);
         mao=mao->next;
     }
     return (mao);
@@ -54,7 +54,7 @@ MAO *encadeia(MAO *mao)
     nova_mao=calloc(1,sizeof(MAO));
     if(nova_mao==NULL)
     {
-        printf("Falha na encadeação!");
+        printf("Falha na encadeaÃ§Ã£o!");
         exit(0);
     }else{
         mao->next=nova_mao;
@@ -64,7 +64,7 @@ MAO *encadeia(MAO *mao)
 }
 
 
-void add_carda_mao(MAO *mao,CARTA *baralho)
+void add_carta_mao(MAO *mao,CARTA *baralho)
 {
     CARTA carta;
     carta=mao->first;
@@ -75,7 +75,7 @@ void add_carda_mao(MAO *mao,CARTA *baralho)
     carda=sacar_carta(baralho);
     if(carda==NULL)
     {
-        printf("Não tem mais carta no baralho.");
+        printf("NÃ£o tem mais carta no baralho.");
     }else{
         carda->next=NULL;
         printf("A carda comprada foi: ");
@@ -87,7 +87,7 @@ void add_carda_mao(MAO *mao,CARTA *baralho)
 }
 
 
-void remove_carta(int posicao,MAO *mao)//começa no pisição 0 e verificar antes se a posição é valida
+void remove_carta(int posicao,MAO *mao)//comeÃ§a no posiÃ§Ã£o 0 e verificar antes se a posiÃ§Ã£o Ã© valida
 {
     CARTA *copia;
 
