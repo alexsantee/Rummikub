@@ -10,7 +10,7 @@ void apaga_mesa(MESA *mesa);	//Limpa memória usada pela mesa
 CONJ *cria_conjunto();	//Inicializa um conjunto e retorna ponteiro para ele
 void insere_no_conjunto(CARTA *c, int pos, CONJ *conj);	//Coloca carta em conj
 void apaga_conjunto(int pos, MESA *mesa);	//limpa conj na posição pos da mesa
-int checa_conjunto(CONJ* conj);	//Recebe conjunto e retorna a validade dele
+int checa_conjunto(CONJ* conj);	//Recebe conjunto e retorna a pontuação dele
 
 struct conjunto
 {

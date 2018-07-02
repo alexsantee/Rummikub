@@ -13,7 +13,7 @@ void apaga_mesa(MESA *mesa);	//Limpa memória usada pela mesa
 CONJ *cria_conjunto();	//Inicializa um conjunto e retorna ponteiro para ele
 void insere_no_conjunto(CARTA *c, int pos, CONJ *conj);	//Coloca carta em conj
 void apaga_conjunto(int pos, MESA *mesa);	//limpa conj na posição pos da mesa
-int checa_conjunto(CONJ* conj);	//Recebe conjunto e retorna a validade dele
+int checa_conjunto(CONJ* conj);	//Recebe conjunto e retorna a pontuação dele
 
 struct conjunto
 {
@@ -162,40 +162,79 @@ void apaga_conjunto(int pos, MESA *mesa)
 
 int checa_conjunto(CONJ* conj){
     //recebe um ponteiro para o grupo ORDENADO e
-    //retorna falso (grupo invalido) ou verdadeiro (grupo valido)
+    //retorna a pontuação do conjunto ou 0 caso inválido
 
+	//Flags para o caso sequência de mesmo naipe
     int mesmo_naipe = 1;
     int seq_numerica = 1;
+
+	//Flags para o caso mesmo número com naipes diferentes
+	int mesmo_num = 1;
+	int naipe_repete = 0;
+
     char naipe_da_seq = '\0';
-    char num_esperado = '\0';
+    char num_esp_seq = '\0';	//Número esperado supondo sequência numérica
+	char num_esp_nai = '\0';	//Número esperado supondo mesmo naipe
+	char naipes_usados[MAX_CONJ];
+	int i;
+	for(i=0;i<MAX_CONJ;i++){naipes_usados[i]=0;}
     int tam_conj = 0;
+	int pontos = 0;
     CARTA *c;
     c = conj->first;
 
     while(c != NULL)
     {
-        //Inicia a sequência mesmo que o conjunto comece por n coringas
-        if (num_esperado == '\0' && c->n != V_CORINGA)
+        //Inicia a sequência mesmo que o conjunto comece por coringas
+        if (num_esp_seq == '\0' && c->n != V_CORINGA)
         {
-            num_esperado = c->n;
+            num_esp_seq = c->n;
+			num_esp_nai = c->n;
         }
+
         if (naipe_da_seq == '\0' && c->naipe != V_CORINGA)
         {
             naipe_da_seq = c->naipe;
         }
 
-        if(num_esperado != c->n && c->n != V_CORINGA)
+        if(num_esp_seq != c->n && c->n != V_CORINGA)
         {seq_numerica = 0;}
+		if(num_esp_nai != c->n && c->n != V_CORINGA)
+        {mesmo_num = 0;}
         if(naipe_da_seq != c->naipe && c->naipe != V_CORINGA)
         {mesmo_naipe = 0;}
+		for(i=0;i<MAX_CONJ&&naipes_usados[i]!=0;i++)
+		{
+			if(c->naipe==naipes_usados[i]){naipe_repete = 1;}
+		}
 
-        if(num_esperado == '9') {num_esperado = 'A';}
-        else if(num_esperado != '\0') {num_esperado++;}
+		//Soma carta na pontuação
+		if(c->n != V_CORINGA){pontos+=c->n;}	//Caso não coringa
+		//-----------------------Falha caso seja letra---------------------------
+		else if(num_esp_seq != '\0'){pontos+=num_esp_seq;}	//Coringa no meio
+		//----------------Alterar código para usar números---------------------
+		else	//Coringas no início	//Aproveitar para esp_seq_num----------
+		{
+			CARTA *tmp;
+			tmp = c;
+			for(i=1; tmp->n!=V_CORINGA;i++)
+			{
+				tmp = tmp->next;
+			}
+			pontos += (tmp->n - i);
+		}
+
+        if(num_esp_seq == '9') {num_esp_seq = 'A';}
+        else if(num_esp_seq != '\0') {num_esp_seq++;}
+		naipes_usados[tam_conj] = c->naipe;
         tam_conj++;
         c = c->next;
     }
 
     if(tam_conj < MIN_CONJ || tam_conj > MAX_CONJ) {return 0;}
-
-    return (mesmo_naipe || seq_numerica);
+    if ( (mesmo_naipe && seq_numerica) || (mesmo_num && !naipe_repete))
+		{
+			return pontos;
+		}
+	return 0;
 }
