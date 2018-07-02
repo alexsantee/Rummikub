@@ -129,14 +129,14 @@ int turno(MAO *mao_jogador;MESA *mesa)
                 int aux;//usado para conversões momentaneas de char pra int;
                 aux=n_cartas - '0';
                 char posição[aux];
-                aux=0;//limpando para se utilizado novamente
+                aux=0;//limpando para ser utilizado novamente
                 for(char i='0';i<n_cartas;i++){
                     printf("posição da carta %c/%c",i+1,n_cartas);
                     scanf("%c",&posição[aux]);
                     aux++;
                 }
                 //função de verificação
-                //resposta se foi execultado o movimento ou o movimento era invalido
+                //resposta se foi executado o movimento ou o movimento era invalido
                 pause();
                 clear();
                 break;
@@ -149,7 +149,7 @@ int turno(MAO *mao_jogador;MESA *mesa)
                     scanf("%c",&posição[i]);
                 }
                 //função de verificação
-                //resposta se foi execultado o movimento ou o movimento era invalido
+                //resposta se foi executado o movimento ou o movimento era invalido
                 pause();
                 clear();
                 break;
@@ -178,8 +178,8 @@ int turno(MAO *mao_jogador;MESA *mesa)
 void printa_mesa(MESA *mesa)
 {
     int i=0;//contador de conjunto
-    MESA *print_mesa;//ponteiro usar ler os valores nos endereços sem reprisar, no final, volta o ponteiro para a possição inicial
-    print_mesa = mesa;//copiando o endereço para não prescissar depois voltar para a posição inicial
+    MESA *print_mesa;//ponteiro usar ler os valores nos endereços sem reprisar, no final, volta o ponteiro para a posição inicial
+    print_mesa = mesa;//copiando o endereço para não precisar depois voltar para a posição inicial
     while(print_mesa.first != NULL)//loop para mostrar um conjunto
         {
         printf("Conjunto %d ->",i+1);
@@ -228,7 +228,7 @@ CARTA *Inicia_Baralho()
             fgets(nome_arquivo,LEN_NOME_ARQ,stdin);
             baralho=cria_baralho_arq(nome_arquivo);
             /*
-              utilliza o ponteiro para structs e cria o baralho a partir da funcao
+              utiliza o ponteiro para structs e cria o baralho a partir da funcao
               especial criada pensando na string recolhida do usuario
             */
             clear();
