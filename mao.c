@@ -33,10 +33,10 @@ MAO *inicia_mao(int nj,CARTA *baralho)
         mao=encadeia(mao);
     }
     mao->next=inicio;
-    mao=incio;
+    mao=inicio;
     for(i=0;i++;i<nj)//loop marcando os jogadores
     {
-        mao->num_jogadores=i;
+        mao->num_jogador=i;
         mao->carta=NULL;
         mao=mao->next;
     }
@@ -90,8 +90,8 @@ void add_carta_mao(MAO *mao,CARTA *baralho)
 void remove_carta(int posicao,MAO *mao)//começa no posição 0 e verificar antes se a posição é valida
 {
     CARTA *copia;
-
-    if(posica==0)
+	int i;
+    if(posicao==0)
     {
         copia=mao->first;
         mao->first=copia->next;
