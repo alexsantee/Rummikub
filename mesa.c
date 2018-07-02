@@ -173,8 +173,8 @@ int checa_conjunto(CONJ* conj){
 	int naipe_repete = 0;
 
     char naipe_da_seq = '\0';
-    char num_esp_seq = '\0';	//Número esperado supondo sequência numérica
-	char num_esp_nai = '\0';	//Número esperado supondo mesmo naipe
+    char num_esp_seq = 0;	//Número esperado supondo sequência numérica
+	char num_esp_nai = 0;	//Número esperado supondo mesmo naipe
 	char naipes_usados[MAX_CONJ];
 	int i;
 	for(i=0;i<MAX_CONJ;i++){naipes_usados[i]=0;}
@@ -186,7 +186,7 @@ int checa_conjunto(CONJ* conj){
     while(c != NULL)
     {
         //Inicia a sequência mesmo que o conjunto comece por coringas
-        if (num_esp_seq == '\0' && c->n != V_CORINGA)
+        if (num_esp_seq == 0 && c->n != V_CORINGA)
         {
             num_esp_seq = c->n;
 			num_esp_nai = c->n;
@@ -210,9 +210,7 @@ int checa_conjunto(CONJ* conj){
 
 		//Soma carta na pontuação
 		if(c->n != V_CORINGA){pontos+=c->n;}	//Caso não coringa
-		//-----------------------Falha caso seja letra---------------------------
-		else if(num_esp_seq != '\0'){pontos+=num_esp_seq;}	//Coringa no meio
-		//----------------Alterar código para usar números---------------------
+		else if(num_esp_seq != 0){pontos+=num_esp_seq;}	//Coringa no meio
 		else	//Coringas no início	//Aproveitar para esp_seq_num----------
 		{
 			CARTA *tmp;
@@ -224,8 +222,7 @@ int checa_conjunto(CONJ* conj){
 			pontos += (tmp->n - i);
 		}
 
-        if(num_esp_seq == '9') {num_esp_seq = 'A';}
-        else if(num_esp_seq != '\0') {num_esp_seq++;}
+		if(num_esp_seq != 0) {num_esp_seq++;}
 		naipes_usados[tam_conj] = c->naipe;
         tam_conj++;
         c = c->next;

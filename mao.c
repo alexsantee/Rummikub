@@ -78,7 +78,9 @@ void add_carda_mao(MAO *mao,CARTA *baralho)
         printf("Não tem mais carta no baralho.");
     }else{
         carda->next=NULL;
-        printf("A carda comprada foi: %c%c.",carta->naipe,carta->n);
+        printf("A carda comprada foi: ");
+		imprime_carta(*carta);
+		printf("\n");
     }
     pause();
     clear();

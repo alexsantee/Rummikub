@@ -1,4 +1,4 @@
-#include <stdlib.h>	//Define ponteiro para NULL e funções aleatórias
+#include <stdlib.h>	//Define ponteiro para NULL, funções aleatórias e atoi
 #include <stdio.h>	//Para comandos de arquivo e saída de erros
 #include <time.h>	//Fornece seed para funções aleatórias
 
@@ -45,8 +45,7 @@ CARTA *cria_baralho()
 					k;
 
 					//Escreve número na carta
-					if (k<9){baralho[i_carta].n = '1'+k;}
-					else {baralho[i_carta].n = 'A'+(k-9);}
+					baralho[i_carta].n = k+1;
 
 					//Adiciona naipe
 					baralho[i_carta].naipe = naipes[j];
@@ -94,7 +93,7 @@ CARTA *cria_baralho_arq(const char *nome_arquivo)
 
 	//Conta número de cartas que o arquivo define
 	int n_cartas = 0;
-	int c;
+	char c;
 	while(!feof(fp))
 	{
 		if ( (c=getc(fp)) == '\n'){n_cartas++;}
@@ -121,7 +120,11 @@ CARTA *cria_baralho_arq(const char *nome_arquivo)
 		c = getc(fp);
 		baralho[i].naipe = c;
 		c = getc(fp);
-		baralho[i].n = c;
+		if(c != V_CORINGA)
+		{
+			baralho[i].n = strtol(&c, NULL, 16);
+		}
+		else{baralho[i].n = V_CORINGA;}
 		c = getc(fp);
 		if(c!='\n')
 		{
@@ -166,5 +169,6 @@ void swap(CARTA *a, CARTA *b)
 
 void imprime_carta(CARTA c)
 {
-	printf("%c%c", c.naipe, c.n);
+	if(c.naipe!=V_CORINGA){printf("%c%X", c.naipe, c.n);}
+	else{printf("%c%c", c.naipe, c.n);}
 }
