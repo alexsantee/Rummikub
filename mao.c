@@ -8,6 +8,11 @@
 
 typedef struct mao MAO;
 
+MAO *inicia_mao(int nj,CARTA *baralho);
+MAO *encadeia(MAO *mao);
+void add_carta_mao(MAO *mao,CARTA *baralho);
+void remove_carta(int posicao,MAO *mao);
+
 struct mao//Ã© uma lista encadeada ciclica
 {
     int num_jogador;//identificar o numero do jogador
@@ -18,29 +23,29 @@ struct mao//Ã© uma lista encadeada ciclica
 MAO *inicia_mao(int nj,CARTA *baralho)
 {
     int i;
-    MAO *mao;
     MAO *inicio;
+    MAO *mao;
 
     mao=calloc(1,sizeof(MAO));
-    if(mao_atual==NULL)
+    if(mao==NULL)
     {
         printf("Falta memoria!.");
         exit(1);
     }
     inicio=mao;
-    for(i=0;i++;i<nj-1)//loop para iniciar o encadeamento
+    for(i=0;i<nj-1;i++)//loop para iniciar o encadeamento
     {
         mao=encadeia(mao);
     }
     mao->next=inicio;
     mao=inicio;
-    for(i=0;i++;i<nj)//loop marcando os jogadores
+    for(i=0;i<nj;i++)//loop marcando os jogadores
     {
         mao->num_jogador=i;
-        mao->carta=NULL;
+        mao->first=NULL;
         mao=mao->next;
     }
-    for(i=0;i++;i<N_MAO_INICIAL-*nj)//distribuindo as cartas na mÃ£o
+    for(i=0;i<N_MAO_INICIAL*nj;i++)//distribuindo as cartas na mÃo
     {
         add_carta_mao(mao,baralho);
         mao=mao->next;
@@ -66,7 +71,7 @@ MAO *encadeia(MAO *mao)
 
 void add_carta_mao(MAO *mao,CARTA *baralho)
 {
-    CARTA carta;
+    CARTA *carta;
     carta=mao->first;
     while(carta!=NULL)
     {
@@ -87,22 +92,24 @@ void add_carta_mao(MAO *mao,CARTA *baralho)
 }
 
 
-void remove_carta(int posicao,MAO *mao)//comeÃ§a no posiÃ§Ã£o 0 e verificar antes se a posiÃ§Ã£o Ã© valida
+void remove_carta(int posicao,MAO *mao)//começa na posição 0 e verificar antes se a posição é válida
 {
     CARTA *copia;
-	int i;
+
     if(posicao==0)
     {
         copia=mao->first;
         mao->first=copia->next;
     }else{
-        for(i=1;i++;i<posicao)
+		int i;
+		CARTA *atual;
+		atual = mao->first;
+        for(i=1;i<posicao;i++)
         {
-            mao=mao->next;
+            atual=atual->next;
         }
-        copia=mao->next;
-        mao->next=copia->next;
+        copia=atual->next;
+        atual->next=copia->next;
     }
-    copia->next=NULL;
     free(copia);
 }

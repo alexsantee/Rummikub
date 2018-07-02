@@ -25,6 +25,6 @@
 #define MIN_CONJ  3	//Número mínimo de cartas em um conjunto
 
 //defines da mao
-#define N_MAO_INICIAL 7	//numero de cartas na mão inicial
+#define N_MAO_INICIAL 14	//numero de cartas na mão inicial
 
 #endif
