@@ -72,13 +72,13 @@ void add_carta_mao(MAO *mao,CARTA *baralho)
     {
         carta=carta->next;
     }
-    carda=sacar_carta(baralho);
-    if(carda==NULL)
+    carta=sacar_carta(baralho);
+    if(carta==NULL)
     {
         printf("Não tem mais carta no baralho.");
     }else{
-        carda->next=NULL;
-        printf("A carda comprada foi: ");
+        carta->next=NULL;
+        printf("A carta comprada foi: ");
 		imprime_carta(*carta);
 		printf("\n");
     }
