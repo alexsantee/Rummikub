@@ -13,7 +13,7 @@ MAO *encadeia(MAO *mao);
 void add_carta_mao(MAO *mao,CARTA *baralho);
 void remove_carta(int posicao,MAO *mao);
 
-struct mao//é uma lista encadeada ciclica
+struct mao//Ã© uma lista encadeada ciclica
 {
     int num_jogador;//identificar o numero do jogador
     CARTA *first;
@@ -45,7 +45,7 @@ MAO *inicia_mao(int nj,CARTA *baralho)
         mao->first=NULL;
         mao=mao->next;
     }
-    for(i=0;i<N_MAO_INICIAL*nj;i++)//distribuindo as cartas na m�o
+    for(i=0;i<N_MAO_INICIAL*nj;i++)//distribuindo as cartas na mÃo
     {
         add_carta_mao(mao,baralho);
         mao=mao->next;
@@ -59,7 +59,7 @@ MAO *encadeia(MAO *mao)
     nova_mao=calloc(1,sizeof(MAO));
     if(nova_mao==NULL)
     {
-        printf("Falha na encadeação!");
+        printf("Falha na encadeaÃ§Ã£o!");
         exit(0);
     }else{
         mao->next=nova_mao;
@@ -80,19 +80,17 @@ void add_carta_mao(MAO *mao,CARTA *baralho)
     carta=sacar_carta(baralho);
     if(carta==NULL)
     {
-        printf("Não tem mais carta no baralho.");
+        printf("NÃ£o tem mais carta no baralho.");
     }else{
         carta->next=NULL;
         printf("A carta comprada foi: ");
 		imprime_carta(*carta);
 		printf("\n");
     }
-    pause();
-    clear();
 }
 
 
-void remove_carta(int posicao,MAO *mao)//come�a na posi��o 0 e verificar antes se a posi��o � v�lida
+void remove_carta(int posicao,MAO *mao)//começa na posição 0 e verificar antes se a posição é válida
 {
     CARTA *copia;
 
