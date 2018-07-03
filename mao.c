@@ -11,9 +11,9 @@ typedef struct mao MAO;
 MAO *inicia_mao(int nj,CARTA *baralho);
 MAO *encadeia(MAO *mao);
 void add_carta_mao(MAO *mao,CARTA *baralho);
-void remove_carta(int posicao,MAO *mao);
+CARTA *remove_carta(int posicao,MAO *mao);
 
-struct mao//ÃƒÂ© uma lista encadeada ciclica
+struct mao//É uma lista encadeada ciclica
 {
     int num_jogador;//identificar o numero do jogador
     CARTA *first;
@@ -58,7 +58,7 @@ MAO *encadeia(MAO *mao)
     nova_mao=calloc(1,sizeof(MAO));
     if(nova_mao==NULL)
     {
-        printf("Falha na encadeaÃƒÂ§ÃƒÂ£o!");
+        printf("Falha na encadeação!");
         exit(1);
     }else{
         mao->next=nova_mao;
@@ -73,7 +73,7 @@ void add_carta_mao(MAO *mao,CARTA *baralho)
     nova = sacar_carta(baralho);
     if(nova==NULL)
     {
-        printf("NÃ£o tem mais carta no baralho.");
+        printf("Não tem mais carta no baralho.");
         return;
     }
 
@@ -97,7 +97,7 @@ void add_carta_mao(MAO *mao,CARTA *baralho)
 }
 
 
-void remove_carta(int posicao,MAO *mao)//comeÃ§a na posiÃ§Ã£o 0 e verificar antes se a posiÃ§Ã£o Ã© vÃ¡lida
+CARTA *remove_carta(int posicao,MAO *mao)//começa na posisão 0 e verificar antes se a posão é válida
 {
     CARTA *copia;
 
@@ -109,12 +109,13 @@ void remove_carta(int posicao,MAO *mao)//comeÃ§a na posiÃ§Ã£o 0 e verificar ante
 		int i;
 		CARTA *atual;
 		atual = mao->first;
-        for(i=1;i<posicao;i++)
+        for(i=1;i<posicao;i++)  //Para uma carta antes
         {
             atual=atual->next;
         }
         copia=atual->next;
         atual->next=copia->next;
     }
-    free(copia);
+    copia->next = NULL;
+    return copia;
 }

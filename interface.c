@@ -115,50 +115,32 @@ int turno(MAO *mao_jogador,MESA *mesa)
                 printf("************************");
                 printf("Opções de ações:\n");
                 printf("1.Jogar cartas da mão\n");
-                printf("2.Formar uma nova combinação\n");
+                printf("2.Tirar carta da mesa\n");
                 if(fim==0){printf("3.Compra do Baralho e terminar o turno.\n>>");}//verificar se a regra do jogo nesta parte esta certa**************
                 else{printf("3.Terminar o turno\n>>");}
                 scanf(" %c",&resp_turno);
                 clear();
                 }while(resp_turno>'3'||resp_turno<'1');
                 switch(resp_turno) {
-                case '1':
+                case '1':   //Jogar carta da mão
                 {
-                    char n_cartas;
-                    do{
-                        clear();
-                        printf("Quantas cartas?\n>> ");
-                        scanf(" %c",&n_cartas);
-                    }while(n_cartas<'0'/*||n_cartas< "cartas na mão" , max 9*/);
-                    int aux;//usado para conversões momentaneas de char pra int;
-                    aux=n_cartas - '0';
-                    char posicao[aux];
-                    aux=0;//limpando para ser utilizado novamente
-                    for(char i='0';i<n_cartas;i++)
-                    {
-                        printf("posição da carta %c/%c",i+1,n_cartas);
-                        scanf("%c",&posicao[aux]);
-                        aux++;
-                    }
-                    //função de verificação
-                    //resposta se foi executado o movimento ou o movimento era invalido
-                    pausa();
-                    clear();
-                    break;
+                    int pos;
+                    CARTA *c;
+                    printf("Carta de que posição? ");
+                    scanf(" %d", &pos);
+                    pos--;  //Índice 1->0
+                    c = remove_carta(pos, mao_jogador);
+                    //COLOCAR C NA MESA----------------------------------------
                 }
-                case '2':
+                case '2':   //Tirar carta da mesa
                 {
-                    char posicao[3];
-                    for(int i=0;i<3;i++)
-                    {
-                        printf("posição da carta %c/%d",i+'1',3);
-                        scanf("%c",&posicao[i]);
-                    }
-                    //função de verificação
-                    //resposta se foi executado o movimento ou o movimento era invalido
-                    pausa();
-                    clear();
-                    break;
+                    int n_conj;
+                    int n_carta;
+                    printf("Retirar carta de que conjunto? ");
+                    scanf(" %d", &n_conj);
+                    printf("Qual a posição da carta no conjunto? ");
+                    scanf(" %d", &n_carta);
+                    //TIRAR CARTA DO CONJUNTO E COLOCAR NA MESA----------------
                 }
                 case '3':
                 {
@@ -177,10 +159,6 @@ int turno(MAO *mao_jogador,MESA *mesa)
             }
         }
     }while(fim==0);//loop principal do turno
-    if(vitoria==0)//passar para o proximo jogador
-    {
-        mao_jogador=mao_jogador->next;
-    }
     return (vitoria);
 }
 
