@@ -40,6 +40,7 @@ int main()
     {
         estado_jogo=turno(mao_jogador,mesa);
         //pula para a funcao que é o jogo em si, para o jogador de numero 1 inicialmente
+        mao_jogador = mao_jogador->next;
         clear();
         /*
           esse bloco permanece rodando ate que se altere a variavel 'estado_jogo'
