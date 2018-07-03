@@ -33,7 +33,7 @@ int main()
 
     mao_jogador = inicia_mao(nj,baralho); //distribui cartas para a mao do jogador
 
-    while(estado_jogo==0);
+    while(estado_jogo==0)
     {
         estado_jogo=turno(mao_jogador,mesa);
         //pula para a funcao que é o jogo em si, para o jogador de numero 1 inicialmente
@@ -187,7 +187,7 @@ void printa_mesa(MESA *mesa)
     CONJ *conj_copia;//ponteiro usar ler os valores nos endereços sem reprisar, no final, volta o ponteiro para a posição inicial
     conj_copia = mesa->first;//copiando o endereço para não precisar depois voltar para a posição inicial
     CARTA *carta_copia;
-    carta_copia=conj_copia->first;
+    if(conj_copia!=NULL){carta_copia=conj_copia->first;}
     while(conj_copia != NULL)//loop para mostrar um conjunto
         {
         printf("Conjunto %d ->",i+1);
