@@ -19,7 +19,7 @@ void splash();
 
 int main()
 {
-    //splash();
+    splash();
     int nj;//numero de jogadores
     CARTA *baralho;
 	MAO *mao_jogador;
@@ -160,7 +160,7 @@ int turno(MAO *mao_jogador,MESA *mesa, CARTA *baralho)
                 {
                     if(movimentos==0)
                     {
-                        add_carda_mao(mao_jogador, baralho);
+                        add_carta_mao(mao_jogador, baralho);
                         fim++;
                         pausa();
                         clear();
