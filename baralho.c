@@ -169,6 +169,10 @@ void swap(CARTA *a, CARTA *b)
 
 void imprime_carta(CARTA c)
 {
+	if(c.da_mesa==1){putchar('(');} //Destaque para cartas que estavam na mesa
+
 	if(c.naipe!=V_CORINGA){printf("%c%X", c.naipe, c.n);}
 	else{printf("%c%c", c.naipe, c.n);}
+	
+	if(c.da_mesa==1){putchar(')');}
 }
