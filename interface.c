@@ -9,13 +9,11 @@
 
 void clear(); //declarada a funcao que realiza a limpeza do terminal
 void pause(); //requer que o usuario pressione ENTER para continuar o programa
-int jogo(int j);
-int Menu_nj();
-int turno(MAO *mao_jogador,MESA *mesa);//--------mexer
-void printa_mesa(MESA *mesa);
+int Menu_nj();//menu para perguntar o numero de jogadores
+int turno(MAO *mao_jogador,MESA *mesa);//precissa ser melhorado
+void printa_mesa(MESA *mesa);//função para printar a mesa atual
 CARTA *Inicia_Baralho(); /* determina o tipo de baralho, ja criando ele
                             ou pegando ele de algum arquivo que queiramos */
-CARTA *cria_mao_jogador( CARTA *baralho );
 
 int main()
 {
@@ -93,73 +91,72 @@ int Menu_nj()
 
 int turno(MAO *mao_jogador,MESA *mesa)
 {
-    int vitoria=0;
+    int vitoria=0;//flag para a resposta se houve ou não vitoira
     int fim=0;//flag para permitir passar o turno
     char resp_turno;
+    int movimentos=0;//flag para verificar se pode passar o turno
 
     printf("É a vez do jogador %d.\n",(mao_jogador->num_jogador)+1);
     pause();
     clear();
 
-    while(fim==0)
-    {
-        int movimentos;
-        int posicao;
-    /*  if(cartas_na_mao ==0)
-            {
+    do{
+        if(mao_jogador->first==NULL)//victoria se não tiver mais carta
+        {
             fim++;
             vitoria++;
-            }
-        else{*///tem que terminar o fechamente de chaves " } "
-        do{
-            printa_mesa(mesa);
-            printf("************************");
-            printf("Opções de ações:\n");
-            printf("1.Jogar cartas da mão\n");
-            printf("2.Formar uma nova combinação\n");
-            if(fim==0){printf("3.Compra do Baralho e terminar o turno.\n>>");}
-            else{printf("3.Terminar o turno\n>>");}
-            scanf(" %c",&resp_turno);
-            clear();
-            }while(resp_turno>'3'||resp_turno<'1');
-            switch(resp_turno) {
-            case '1':
+        }else{
+            do{
+                printa_mesa(mesa);
+                printf("************************");
+                printf("Opções de ações:\n");
+                printf("1.Jogar cartas da mão\n");
+                printf("2.Formar uma nova combinação\n");
+                if(fim==0){printf("3.Compra do Baralho e terminar o turno.\n>>");}//verificar se a regra do jogo nesta parte esta certa**************
+                else{printf("3.Terminar o turno\n>>");}
+                scanf(" %c",&resp_turno);
+                clear();
+                }while(resp_turno>'3'||resp_turno<'1');
+                switch(resp_turno) {
+                case '1':
                 {
-                char n_cartas;
-                do{
-                    clear();
-                    printf("Quantas cartas?\n>> ");
-                    scanf(" %c",&n_cartas);
+                    char n_cartas;
+                    do{
+                        clear();
+                        printf("Quantas cartas?\n>> ");
+                        scanf(" %c",&n_cartas);
                     }while(n_cartas<'0'/*||n_cartas< "cartas na mão" , max 9*/);
-                int aux;//usado para conversões momentaneas de char pra int;
-                aux=n_cartas - '0';
-                char posicao[aux];
-                aux=0;//limpando para ser utilizado novamente
-                for(char i='0';i<n_cartas;i++){
-                    printf("posição da carta %c/%c",i+1,n_cartas);
-                    scanf("%c",&posicao[aux]);
-                    aux++;
+                    int aux;//usado para conversões momentaneas de char pra int;
+                    aux=n_cartas - '0';
+                    char posicao[aux];
+                    aux=0;//limpando para ser utilizado novamente
+                    for(char i='0';i<n_cartas;i++)
+                    {
+                        printf("posição da carta %c/%c",i+1,n_cartas);
+                        scanf("%c",&posicao[aux]);
+                        aux++;
+                    }
+                    //função de verificação
+                    //resposta se foi executado o movimento ou o movimento era invalido
+                    pause();
+                    clear();
+                    break;
                 }
-                //função de verificação
-                //resposta se foi executado o movimento ou o movimento era invalido
-                pause();
-                clear();
-                break;
-                }
-            case '2':
+                case '2':
                 {
-                char posição[3];
-                for(int i=0;i<3;i++){
-                    printf("posição da carta %c/%d",i+1,3);
-                    scanf("%c",&posicao[i]);
+                    char posicao[3];
+                    for(int i=0;i<3;i++)
+                    {
+                        printf("posição da carta %c/%d",i+1,3);
+                        scanf("%c",&posicao[i]);
+                    }
+                    //função de verificação
+                    //resposta se foi executado o movimento ou o movimento era invalido
+                    pause();
+                    clear();
+                    break;
                 }
-                //função de verificação
-                //resposta se foi executado o movimento ou o movimento era invalido
-                pause();
-                clear();
-                break;
-                }
-            case '3':
+                case '3':
                 {
                     if(movimentos==0)
                     {
@@ -172,9 +169,10 @@ int turno(MAO *mao_jogador,MESA *mesa)
                         fim++;
                         clear();
                     }
+                }
             }
         }
-    }
+    }while(fim==0);//loop principal do turno
     if(vitoria==0)//passar para o proximo jogador
     {
         mao_jogador=mao_jogador->next;
@@ -199,7 +197,7 @@ void printa_mesa(MESA *mesa)
                 carta_copia=carta_copia->next;
             }
         conj_copia= conj_copia->next;//passar para outro conjunto
-        putchar("\n");
+        printf("\n");
         i++;
         }
 }
