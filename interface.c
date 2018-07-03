@@ -150,7 +150,7 @@ int turno(MAO *mao_jogador,MESA *mesa)
                     char posicao[3];
                     for(int i=0;i<3;i++)
                     {
-                        printf("posição da carta %c/%d",i+1,3);
+                        printf("posição da carta %c/%d",i+'1',3);
                         scanf("%c",&posicao[i]);
                     }
                     //função de verificação
