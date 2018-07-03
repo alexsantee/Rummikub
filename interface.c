@@ -125,6 +125,7 @@ int turno(MAO *mao_jogador,MESA *mesa)
                     pos--;  //Índice 1->0
                     c = remove_carta(pos, mao_jogador);
                     //COLOCAR C NA MESA----------------------------------------
+                    break;
                 }
                 case '2':   //Tirar carta da mesa
                 {
@@ -135,8 +136,9 @@ int turno(MAO *mao_jogador,MESA *mesa)
                     printf("Qual a posição da carta no conjunto? ");
                     scanf(" %d", &n_carta);
                     //TIRAR CARTA DO CONJUNTO E COLOCAR NA MESA----------------
+                    break;
                 }
-                case '3':
+                case '3':   //finalizar turno comprando ou não carta
                 {
                     if(movimentos==0)
                     {
@@ -149,6 +151,7 @@ int turno(MAO *mao_jogador,MESA *mesa)
                         fim++;
                         clear();
                     }
+                    break;
                 }
             }
         }
