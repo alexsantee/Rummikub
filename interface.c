@@ -11,7 +11,7 @@
 void clear(); //declarada a funcao que realiza a limpeza do terminal
 void pausa(); //requer que o usuario pressione ENTER para continuar o programa
 int Menu_nj();//menu para perguntar o numero de jogadores
-int turno(MAO *mao_jogador,MESA *mesa);//precissa ser melhorado
+int turno(MAO *mao_jogador,MESA *mesa, CARTA *baralho);//precissa ser melhorado
 void printa_mesa(MESA *mesa);//função para printar a mesa atual
 CARTA *Inicia_Baralho(); /* determina o tipo de baralho, ja criando ele
                             ou pegando ele de algum arquivo que queiramos */
@@ -38,7 +38,7 @@ int main()
 
     while(estado_jogo==0)
     {
-        estado_jogo=turno(mao_jogador,mesa);
+        estado_jogo=turno(mao_jogador,mesa, baralho);
         mao_jogador = mao_jogador->next;
         //INICIALIZAR TODOS AS CARTAS DA MESA COMO DA_MESA---------------------
         clear();
@@ -87,7 +87,7 @@ int Menu_nj()
     return (nj);
 }
 
-int turno(MAO *mao_jogador,MESA *mesa)
+int turno(MAO *mao_jogador,MESA *mesa, CARTA *baralho)
 {
     int vitoria=0;
     int fim=0;//flag para permitir passar o turno
@@ -123,16 +123,16 @@ int turno(MAO *mao_jogador,MESA *mesa)
                     int pos_conj;
                     printf("Carta de que posição? ");
                     scanf(" %d", &pos_carta_mao);
-                    pos--;  //Índice 1->0
+                    pos_carta_mao--;  //Índice 1->0
                     printf("Em que conjunto colocar? ");
                     scanf(" %d", &n_conj);
-                    conj--;
+                    n_conj--;
                     printf("Qual a posição naquele conjunto? ");
                     scanf(" %d", &pos_conj);
                     pos_conj--;
                     CARTA *c;
                     CONJ *conj;
-                    c = remove_carta(pos, mao_jogador);
+                    c = remove_carta(pos_carta_mao, mao_jogador);
                     conj = localiza_conjunto(n_conj, mesa);
                     insere_no_conjunto(c, pos_conj, conj);
                     
@@ -144,17 +144,23 @@ int turno(MAO *mao_jogador,MESA *mesa)
                     int n_carta;
                     printf("Retirar carta de que conjunto? ");
                     scanf(" %d", &n_conj);
+                    n_conj--;
                     printf("Qual a posição da carta no conjunto? ");
                     scanf(" %d", &n_carta);
-                    //TIRAR CARTA DO CONJUNTO E COLOCAR NA MÃO----------------
+                    n_carta--;
+                    CARTA *c;
+                    CONJ *conj;
+                    conj = localiza_conjunto(n_conj, mesa);
+                    c = retira_do_conjunto(n_carta, conj);
+                    c->next = mao_jogador->first;//DEVIAMOS COLOCAR NO FINAL
+                    mao_jogador->first = c;
                     break;
                 }
                 case '3':   //finalizar turno comprando ou não carta
                 {
                     if(movimentos==0)
                     {
-                        //FUNÇÃO COMPRAR-------------------------------------
-                        //PRINTAR CARTA COMPRADA-------------------------------
+                        add_carda_mao(mao_jogador, baralho);
                         fim++;
                         pausa();
                         clear();
