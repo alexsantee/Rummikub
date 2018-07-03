@@ -21,38 +21,33 @@ int main()
 {
     //splash();
     int nj;//numero de jogadores
-    CARTA *baralho; //struct dos elementos que vao compor o baralho
-	MAO *mao_jogador; //struct de elementos que compoe a mao do jogador
+    CARTA *baralho;
+	MAO *mao_jogador;
     MESA *mesa;
 
-   int estado_jogo=0;//flag para monitorar
+   int estado_jogo=0;
 
-    setlocale(LC_CTYPE, "Portuguese"); //adapta a linguagem para portugues(acentos)
+    setlocale(LC_CTYPE, "Portuguese");
 
-    baralho= Inicia_Baralho(); //cria e torna o baralho
+    baralho = Inicia_Baralho();
     mesa=cria_mesa();
 
-    nj = Menu_nj(); //obtem a quantidade de jogadores
+    nj = Menu_nj();
 
-    mao_jogador = inicia_mao(nj,baralho); //distribui cartas para a mao do jogador
+    mao_jogador = inicia_mao(nj,baralho);
 
     while(estado_jogo==0)
     {
         estado_jogo=turno(mao_jogador,mesa);
-        //pula para a funcao que é o jogo em si, para o jogador de numero 1 inicialmente
         mao_jogador = mao_jogador->next;
+        //INICIALIZAR TODOS AS CARTAS DA MESA COMO DA_MESA---------------------
         clear();
-        /*
-          esse bloco permanece rodando ate que se altere a variavel 'estado_jogo'
-          assim sabemos que quando alterada o jogo acabou. O unico valor disponi-
-          vel para alteracao é o 1. Verificando assim qual venceu
-        */
     }
 	if(estado_jogo==1){
     	printf("O jogador %d foi o vencedor.\n",(mao_jogador->num_jogador)+1);
 	}
     else{
-		//executa verificação de vencedor
+		//EXECUTA VERIFICAÇÃO DE VENCEDOR------------------------------------------
 	}
     pausa();
     return (0);
@@ -87,15 +82,14 @@ int Menu_nj()
     scanf(" %c",&resp_inicial);
     clear();
     }while(resp_inicial>MAX_JOGADORES||resp_inicial<'1');
-    //do while para forcar que o usuario escreva dentro de um intervalo válido
     nj=(resp_inicial - '0');
 
-    return (nj); //retorna quantidade de jogadores
+    return (nj);
 }
 
 int turno(MAO *mao_jogador,MESA *mesa)
 {
-    int vitoria=0;//flag para a resposta se houve ou não vitoira
+    int vitoria=0;
     int fim=0;//flag para permitir passar o turno
     char resp_turno;
     int movimentos=0;//flag para verificar se pode passar o turno
@@ -146,8 +140,8 @@ int turno(MAO *mao_jogador,MESA *mesa)
                 {
                     if(movimentos==0)
                     {
-                        //função compra
-                        //printar carta comprada
+                        //FUNÇÃO COMPRAR-------------------------------------
+                        //PRINTAR CARTA COMPRADA-------------------------------
                         fim++;
                         pausa();
                         clear();
@@ -158,16 +152,16 @@ int turno(MAO *mao_jogador,MESA *mesa)
                 }
             }
         }
-    }while(fim==0);//loop principal do turno
+    }while(fim==0);
     return (vitoria);
 }
 
 
 void printa_mesa(MESA *mesa)
 {
-    int i=0;//contador de conjunto
-    CONJ *conj_copia;//ponteiro usar ler os valores nos endereços sem reprisar, no final, volta o ponteiro para a posição inicial
-    conj_copia = mesa->first;//copiando o endereço para não precisar depois voltar para a posição inicial
+    int i=0;
+    CONJ *conj_copia;
+    conj_copia = mesa->first;
     CARTA *carta_copia;
     if(conj_copia!=NULL){carta_copia=conj_copia->first;}
     while(conj_copia != NULL)//loop para mostrar um conjunto
@@ -175,7 +169,7 @@ void printa_mesa(MESA *mesa)
         printf("Conjunto %d ->",i+1);
         while(carta_copia != NULL)//loop pra mostrar as cartas do conjunto
             {
-                printf("  %c%c",carta_copia->naipe,carta_copia->n);//tamanho de caracteres na tela:4
+                imprime_carta(*carta_copia);
                 carta_copia=carta_copia->next;
             }
         conj_copia= conj_copia->next;//passar para outro conjunto
@@ -192,10 +186,10 @@ CARTA *Inicia_Baralho()
     printf("Você deseja usar um baralho aleatorio[1] ou importar um baralho[2]?\n>> ");
     resp_baralho=getc(stdin);
     clear();
-    }while(resp_baralho<'1'||resp_baralho>'2'); //o loop impossibilita respostas invalidas
+    }while(resp_baralho<'1'||resp_baralho>'2');
     if(resp_baralho=='1')
         {
-            baralho = cria_baralho(); //utiliza o ponteiro pra struct de cartas e cria o baralho
+            baralho = cria_baralho();
             if(baralho == NULL){
                 printf("[!]Nao foi possivel criar o baralho! Tente novamente.\n");
                 pausa();
@@ -205,11 +199,7 @@ CARTA *Inicia_Baralho()
                 printf("[!]Baralho aleatório criado.\n");
                 pausa();
             }
-            embaralha(baralho); //utiliza o ponteiro com endereco do baralho e o embaralha
-            /*
-            obs: embaralho é realizado depois da verificacao do baralho NULL para evitar processamento
-                 caso nao foi possivel criar o baralho
-            */
+            embaralha(baralho);
         }
     if(resp_baralho=='2')
         {
@@ -217,10 +207,6 @@ CARTA *Inicia_Baralho()
             printf("Qual o nome do arquivo:(inclua o .txt !)\n>> ");
             fgets(nome_arquivo,LEN_NOME_ARQ,stdin);
             baralho=cria_baralho_arq(nome_arquivo);
-            /*
-              utiliza o ponteiro para structs e cria o baralho a partir da funcao
-              especial criada pensando na string recolhida do usuario
-            */
             clear();
             if(baralho == NULL){
                 printf("[!]Baralho nao lido. Verifique se o nome esta correto e tente novamente.\n");
@@ -233,7 +219,7 @@ CARTA *Inicia_Baralho()
         }
     pausa();
     clear();
-    return (baralho); //retorna o ponteiro para o baralho, caso ele consiga ser criado
+    return (baralho);
 }
 
 void splash()
