@@ -11,7 +11,9 @@ MESA *cria_mesa();	//Inicializa a mesa e retorna ponteiro para ela
 void insere_na_mesa(CONJ *conj, int pos, MESA *mesa);	//Coloca conj na mesa
 void apaga_mesa(MESA *mesa);	//Limpa memória usada pela mesa
 CONJ *cria_conjunto();	//Inicializa um conjunto e retorna ponteiro para ele
+CONJ *localiza_conjunto(int pos, MESA *mesa);//Recebe posição e retorna o conjunto
 void insere_no_conjunto(CARTA *c, int pos, CONJ *conj);	//Coloca carta em conj
+CARTA *retira_do_conjunto(int pos, CONJ *conj); //Retira carta do conjunto e retorna-a
 void apaga_conjunto(int pos, MESA *mesa);	//limpa conj na posição pos da mesa
 int checa_conjunto(CONJ* conj);	//Recebe conjunto e retorna a pontuação dele
 
@@ -101,6 +103,18 @@ CONJ *cria_conjunto()
 	return conj;
 }
 
+CONJ *localiza_conjunto(int pos, MESA *mesa)
+{   //ESSA FUNÇÃO ESTÁ SUJEITA A SEGFAULT
+    CONJ *conj;
+    conj = mesa->first;
+    int i;
+    for(i=0;i<pos;i++)
+    {
+        conj=conj->next;
+    }
+    return conj;
+}
+
 void insere_no_conjunto(CARTA *c, int pos, CONJ *conj)
 {
 	//Adiciona a carta c na posição pos do conjunto conj
@@ -132,6 +146,28 @@ void insere_no_conjunto(CARTA *c, int pos, CONJ *conj)
 	}
 	c->next = tmp->next;
 	tmp->next = c;
+}
+
+CARTA *retira_do_conjunto(int pos, CONJ *conj)
+{
+    //ESSA FUNÇÃO ESTÁ SUJEITA A SEGFAULT-----------------------------------
+    CARTA *c;
+    c = conj->first;
+    if(pos==0)
+    {
+        conj->first = NULL;
+        return c;
+    }
+    int i;
+    for(i=1;i<pos;i++)  //Para na anterior
+    {
+        c=c->next;
+    }
+    CARTA *tmp;
+    tmp = c->next;
+    c->next=tmp->next;
+    tmp->next = NULL;
+    return tmp;
 }
 
 void apaga_conjunto(int pos, MESA *mesa)

@@ -118,13 +118,24 @@ int turno(MAO *mao_jogador,MESA *mesa)
                 switch(resp_turno) {
                 case '1':   //Jogar carta da mão
                 {
-                    int pos;
-                    CARTA *c;
+                    int pos_carta_mao;
+                    int n_conj;
+                    int pos_conj;
                     printf("Carta de que posição? ");
-                    scanf(" %d", &pos);
+                    scanf(" %d", &pos_carta_mao);
                     pos--;  //Índice 1->0
+                    printf("Em que conjunto colocar? ");
+                    scanf(" %d", &n_conj);
+                    conj--;
+                    printf("Qual a posição naquele conjunto? ");
+                    scanf(" %d", &pos_conj);
+                    pos_conj--;
+                    CARTA *c;
+                    CONJ *conj;
                     c = remove_carta(pos, mao_jogador);
-                    //COLOCAR C NA MESA----------------------------------------
+                    conj = localiza_conjunto(n_conj, mesa);
+                    insere_no_conjunto(c, pos_conj, conj);
+                    
                     break;
                 }
                 case '2':   //Tirar carta da mesa
@@ -135,7 +146,7 @@ int turno(MAO *mao_jogador,MESA *mesa)
                     scanf(" %d", &n_conj);
                     printf("Qual a posição da carta no conjunto? ");
                     scanf(" %d", &n_carta);
-                    //TIRAR CARTA DO CONJUNTO E COLOCAR NA MESA----------------
+                    //TIRAR CARTA DO CONJUNTO E COLOCAR NA MÃO----------------
                     break;
                 }
                 case '3':   //finalizar turno comprando ou não carta
