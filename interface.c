@@ -5,12 +5,14 @@
 #include "baralho.h"
 #include "mesa.h"
 #include "defines.h"
+#include "mao.h"
 
 void clear(); //declarada a funcao que realiza a limpeza do terminal
 void pause(); //requer que o usuario pressione ENTER para continuar o programa
 int jogo(int j);
 int Menu_nj();
-int turno(int j,CARTA *mao_jogador[int jogador],MESA *mesa);//--------mexer
+int turno(int j,CARTA *mao_jogador,MESA *mesa);//--------mexer
+void printa_mesa(MESA *mesa);
 CARTA *Inicia_Baralho(); /* determina o tipo de baralho, ja criando ele
                             ou pegando ele de algum arquivo que queiramos */
 CARTA *cria_mao_jogador( CARTA *baralho );
@@ -21,18 +23,18 @@ int main()
     CARTA *baralho; //struct dos elementos que vao compor o baralho
 	MAO *mao_jogador; //struct de elementos que compoe a mao do jogador
 
-    enum estado_jogo(sem_carta=-1,em_andamento=0,vitoria=1)//variavel para determinar se alguem ganhou
-	    
+    enum situacao(sem_carta=-1,em_andamento=0,vitoria=1)estado_jogo;//variavel para determinar se alguem ganhou
+
     setlocale(LC_CTYPE, "Portuguese"); //adapta a linguagem para portugues(acentos)
 
     baralho= Inicia_Baralho(); //cria e torna o baralho
     nj = Menu_nj(); //obtem a quantidade de jogadores
-    
-    mao_jogador = inicia_mao(nj,*baralho); //distribui cartas para a mao do jogador
 
-    while(estado_jogo==0);
+    mao_jogador = inicia_mao(nj,baralho); //distribui cartas para a mao do jogador
+
+    while(estado_jogo==em_andamento);
     {
-        estado_jogo=turno(*mao_jogador,*mesa); 
+        estado_jogo=turno(mao_jogador,mesa);
         //pula para a funcao que é o jogo em si, para o jogador de numero 1 inicialmente
         clear();
         /*
@@ -41,7 +43,7 @@ int main()
           vel para alteracao é o 1. Verificando assim qual venceu
         */
     }
-	if(estado_jogo==1){
+	if(estado_jogo==vitoria){
     	printf("O jogador %d foi o vencedor.\n",(mao_jogador->num_jogador)+1);
 	}
     else{
@@ -178,17 +180,19 @@ int turno(MAO *mao_jogador;MESA *mesa)
 void printa_mesa(MESA *mesa)
 {
     int i=0;//contador de conjunto
-    MESA *print_mesa;//ponteiro usar ler os valores nos endereços sem reprisar, no final, volta o ponteiro para a posição inicial
-    print_mesa = mesa;//copiando o endereço para não precisar depois voltar para a posição inicial
-    while(print_mesa->first != NULL)//loop para mostrar um conjunto
+    MESA *conj_copia;//ponteiro usar ler os valores nos endereços sem reprisar, no final, volta o ponteiro para a posição inicial
+    conj_copia = mesa->first;//copiando o endereço para não precisar depois voltar para a posição inicial
+    CARTA *carta_copia;
+    carta_copia=conj_copia->first;
+    while(conj_copia != NULL)//loop para mostrar um conjunto
         {
         printf("Conjunto %d ->",i+1);
-        while(print_mesa->first.carta != NULL)//loop pra mostrar as cartas do conjunto
+        while(carta_copia != NULL)//loop pra mostrar as cartas do conjunto
             {
-                printf("  %c%c",CARTA->naipe,CARTA->n);//tamanho de caracteres na tela:4
-                print_mesa->first.carta = print_mesa->first.next;
+                printf("  %c%c",carta_copia->naipe,carta_copia->n);//tamanho de caracteres na tela:4
+                carta_copia=carta_copia->next;
             }
-        print_mesa->first = print_mesa->next;//passar para outro conjunto
+        conj_copia= conj_copia->next;//passar para outro conjunto
         putchar("\n");
         i++;
         }
@@ -238,7 +242,7 @@ CARTA *Inicia_Baralho()
                 exit(0);
             }
             else{
-                printf("Baralho lido.\n"); 
+                printf("Baralho lido.\n");
             }
         }
     pause();
