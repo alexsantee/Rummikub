@@ -80,11 +80,11 @@ void add_carta_mao(MAO *mao,CARTA *baralho)
     carta=sacar_carta(baralho);
     if(carta==NULL)
     {
-        printf("NÃ£o tem mais carta no baralho.");
+        printf("Não tem mais carta no baralho.");
     }else{
         carta->next=NULL;
         printf("A carta comprada foi: ");
-		imprime_carta(*carta);
+		imprime_carta(carta);
 		printf("\n");
     }
 }
