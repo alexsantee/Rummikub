@@ -42,7 +42,6 @@ MAO *inicia_mao(int nj,CARTA *baralho)
     for(i=0;i<nj;i++)//loop marcando os jogadores
     {
         mao->num_jogador=i;
-        mao->first=NULL;
         mao=mao->next;
     }
     for(i=0;i<N_MAO_INICIAL*nj;i++)//distribuindo as cartas na mÃo
@@ -50,7 +49,7 @@ MAO *inicia_mao(int nj,CARTA *baralho)
         add_carta_mao(mao,baralho);
         mao=mao->next;
     }
-    return (mao);
+    return (inicio);
 }
 
 MAO *encadeia(MAO *mao)
@@ -60,10 +59,9 @@ MAO *encadeia(MAO *mao)
     if(nova_mao==NULL)
     {
         printf("Falha na encadeaÃ§Ã£o!");
-        exit(0);
+        exit(1);
     }else{
         mao->next=nova_mao;
-        nova_mao->next=NULL;
     }
     return (nova_mao);
 }
@@ -71,22 +69,31 @@ MAO *encadeia(MAO *mao)
 
 void add_carta_mao(MAO *mao,CARTA *baralho)
 {
+    CARTA *nova;
+    nova = sacar_carta(baralho);
+    if(nova==NULL)
+    {
+        printf("Não tem mais carta no baralho.");
+        return;
+    }
+
+    if(mao->first==NULL)
+    {
+        mao->first=nova;
+        return;
+    }
+
     CARTA *carta;
     carta=mao->first;
-    while(carta!=NULL)
+    while(carta->next!=NULL)
     {
         carta=carta->next;
     }
-    carta=sacar_carta(baralho);
-    if(carta==NULL)
-    {
-        printf("Não tem mais carta no baralho.");
-    }else{
-        carta->next=NULL;
-        printf("A carta comprada foi: ");
-		imprime_carta(carta);
-		printf("\n");
-    }
+    carta->next=nova;
+    
+    printf("A carta comprada foi: ");
+	imprime_carta(*carta);
+    printf("\n");
 }
 
 
