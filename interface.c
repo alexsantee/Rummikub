@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>//para colocar a escrita em portugues;
+#include <unistd.h>//Funções de pausa para splash screen
 
 #include "baralho.h"
 #include "mesa.h"
@@ -8,15 +9,17 @@
 #include "mao.h"
 
 void clear(); //declarada a funcao que realiza a limpeza do terminal
-void pause(); //requer que o usuario pressione ENTER para continuar o programa
+void pausa(); //requer que o usuario pressione ENTER para continuar o programa
 int Menu_nj();//menu para perguntar o numero de jogadores
 int turno(MAO *mao_jogador,MESA *mesa);//precissa ser melhorado
 void printa_mesa(MESA *mesa);//função para printar a mesa atual
 CARTA *Inicia_Baralho(); /* determina o tipo de baralho, ja criando ele
                             ou pegando ele de algum arquivo que queiramos */
+void splash();
 
 int main()
 {
+    //splash();
     int nj;//numero de jogadores
     CARTA *baralho; //struct dos elementos que vao compor o baralho
 	MAO *mao_jogador; //struct de elementos que compoe a mao do jogador
@@ -50,7 +53,7 @@ int main()
     else{
 		//executa verificação de vencedor
 	}
-    pause();
+    pausa();
     return (0);
 }
 
@@ -63,7 +66,7 @@ void clear()
 	#endif
 }
 
-void pause()
+void pausa()
 {
 	getchar();	//Retira o \n
     char pausa;
@@ -97,7 +100,7 @@ int turno(MAO *mao_jogador,MESA *mesa)
     int movimentos=0;//flag para verificar se pode passar o turno
 
     printf("É a vez do jogador %d.\n",(mao_jogador->num_jogador)+1);
-    pause();
+    pausa();
     clear();
 
     do{
@@ -138,7 +141,7 @@ int turno(MAO *mao_jogador,MESA *mesa)
                     }
                     //função de verificação
                     //resposta se foi executado o movimento ou o movimento era invalido
-                    pause();
+                    pausa();
                     clear();
                     break;
                 }
@@ -152,7 +155,7 @@ int turno(MAO *mao_jogador,MESA *mesa)
                     }
                     //função de verificação
                     //resposta se foi executado o movimento ou o movimento era invalido
-                    pause();
+                    pausa();
                     clear();
                     break;
                 }
@@ -163,7 +166,7 @@ int turno(MAO *mao_jogador,MESA *mesa)
                         //função compra
                         //printar carta comprada
                         fim++;
-                        pause();
+                        pausa();
                         clear();
                     }else{
                         fim++;
@@ -216,12 +219,12 @@ CARTA *Inicia_Baralho()
             baralho = cria_baralho(); //utiliza o ponteiro pra struct de cartas e cria o baralho
             if(baralho == NULL){
                 printf("[!]Nao foi possivel criar o baralho! Tente novamente.\n");
-                pause();
+                pausa();
                 exit(0);
             }
             else{
                 printf("[!]Baralho aleatório criado.\n");
-                pause();
+                pausa();
             }
             embaralha(baralho); //utiliza o ponteiro com endereco do baralho e o embaralha
             /*
@@ -242,14 +245,55 @@ CARTA *Inicia_Baralho()
             clear();
             if(baralho == NULL){
                 printf("[!]Baralho nao lido. Verifique se o nome esta correto e tente novamente.\n");
-                pause();
+                pausa();
                 exit(0);
             }
             else{
                 printf("Baralho lido.\n");
             }
         }
-    pause();
+    pausa();
     clear();
     return (baralho); //retorna o ponteiro para o baralho, caso ele consiga ser criado
+}
+
+void splash()
+{
+    const char *frame0 = "\n===============================================================================\n\n===============================================================================\n\n===============================================================================\n\n    _______                                      _       \n   (  ____ )                                    | \\    /\\\n   | (    )|                                    |  \\  / /\n   | (____)|                                    |  (_/ / \n   |     __)                                    |   _ (  \n   | (\\ (                                       |  ( \\ \\ \n   | ) \\ \\__                                    |  /  \\ \\\n   |/   \\__/                                    |_/    \\/\n                                                         \n\n===============================================================================\n\n===============================================================================\n\n===============================================================================\n\n";
+    const char *frame1 = "===============================================================================\n\n===============================================================================\n\n===============================================================================\n\n\n    _______                                      _       \n   (  ____ )                                    | \\    /\\\n   | (    )|                                    |  \\  / /\n   | (____)|                                    |  (_/ / \n   |     __)                                    |   _ (  \n   | (\\ (                                       |  ( \\ \\ \n   | ) \\ \\__                                    |  /  \\ \\\n   |/   \\__/                                    |_/    \\/\n                                                         \n\n\n===============================================================================\n\n===============================================================================\n\n===============================================================================\n";
+    const char *frame2 = "###############################################################################\n###############################################################################\n###############################################################################\n###############################################################################\n###############################################################################\n###############################################################################\n###############################################################################\n###############################################################################\n###############################################################################\n###############################################################################\n###############################################################################\n###############################################################################\n###############################################################################\n###############################################################################\n###############################################################################\n###############################################################################\n###############################################################################\n###############################################################################\n###############################################################################\n###############################################################################\n###############################################################################\n###############################################################################\n###############################################################################\n###############################################################################";
+    const char *frame3 = "X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X +\n + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X +\nX + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X +\n + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X +\nX + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X +\n + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X +\n\n    _______           _______  _______ _________ _                 ______  \n   (  ____ )|\\     /|(       )(       )\\__   __/| \\    /\\|\\     /|(  ___ \\ \n   | (    )|| )   ( || () () || () () |   ) (   |  \\  / /| )   ( || (   ) )\n   | (____)|| |   | || || || || || || |   | |   |  (_/ / | |   | || (__/ / \n   |     __)| |   | || |(_)| || |(_)| |   | |   |   _ (  | |   | ||  __ (  \n   | (\\ (   | |   | || |   | || |   | |   | |   |  ( \\ \\ | |   | || (  \\ \\ \n   | ) \\ \\__| (___) || )   ( || )   ( |___) (___|  /  \\ \\| (___) || )___) )\n   |/   \\__/(_______)|/     \\||/     \\|\\_______/|_/    \\/(_______)|/ \\___/ \n                                                                           \n\nX + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X +\n + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X +\nX + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X +\n + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X +\nX + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X +\n + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X +\nX + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X +";
+    const char *frame4 = "+ X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X\n X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X\n+ X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X\n X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X\n+ X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X\n X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X\n\n    _______           _______  _______ _________ _                 ______  \n   (  ____ )|\\     /|(       )(       )\\__   __/| \\    /\\|\\     /|(  ___ \\ \n   | (    )|| )   ( || () () || () () |   ) (   |  \\  / /| )   ( || (   ) )\n   | (____)|| |   | || || || || || || |   | |   |  (_/ / | |   | || (__/ / \n   |     __)| |   | || |(_)| || |(_)| |   | |   |   _ (  | |   | ||  __ (  \n   | (\\ (   | |   | || |   | || |   | |   | |   |  ( \\ \\ | |   | || (  \\ \\ \n   | ) \\ \\__| (___) || )   ( || )   ( |___) (___|  /  \\ \\| (___) || )___) )\n   |/   \\__/(_______)|/     \\||/     \\|\\_______/|_/    \\/(_______)|/ \\___/ \n                                                                           \n\n+ X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X\n X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X\n+ X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X\n X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X\n+ X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X\n X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X\n+ X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X + X";
+
+    const char *frames[5];
+    frames[0] = frame0;
+    frames[1] = frame1;
+    frames[2] = frame2;
+    frames[3] = frame3;
+    frames[4] = frame4;
+
+    int i;
+    for(i=0; i<30; i++)
+    {
+        putchar('\n');
+        clear();
+        printf("%s", frames[(i%2)]);
+        usleep(100000);
+    }
+    
+        putchar('\n');
+        clear();
+        printf("%s", frames[2]);
+        usleep(400000);
+        
+        for(i=0; i<30; i++)
+    {
+        putchar('\n');
+        clear();
+        printf("%s", frames[(i%2)+3]);
+        usleep(200000);
+    }    
+
+    putchar('\n');
+    clear();
 }
