@@ -6,10 +6,10 @@ O programa consiste em uma versão para C do famoso jogo Rummikub, onde o objeti
 
 Trabalho 4 por:  
 Alex Santee - 10392226 P=0 \
-Arthur Schmidt - 10716376\ P=3
-Daniel Pozzan - 10716608\ P=5
-Felipe Bordin - 10716421\ P=1
-Leonardo Rodrigues - 10716380\ P=4
+Arthur Schmidt - 10716376 P=3 \
+Daniel Pozzan - 10716608 P=5 \
+Felipe Bordin - 10716421 P=1 \
+Leonardo Rodrigues - 10716380 P=4 \
 Vitor Caires - 10748027 P=2
 
 --------
