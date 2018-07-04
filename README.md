@@ -5,7 +5,7 @@ O programa consiste em uma versão para C do famoso jogo Rummikub, onde o objeti
 ### Para executar o jogo, apenas clique duas vezes no executável, e siga as instruções na tela.
 
 Trabalho 4 por:  
-Alex Santee - 10392226\ P=0
+Alex Santee - 10392226 P=0 \
 Arthur Schmidt - 10716376\ P=3
 Daniel Pozzan - 10716608\ P=5
 Felipe Bordin - 10716421\ P=1
