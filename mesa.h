@@ -13,6 +13,7 @@ void insere_no_conjunto(CARTA *c, int pos, CONJ *conj);	//Coloca carta em conj
 CARTA *retira_do_conjunto(int pos, CONJ *conj); //Retira carta do conjunto e retorna-a
 void apaga_conjunto(int pos, MESA *mesa);	//limpa conj na posição pos da mesa
 int checa_conjunto(CONJ* conj);	//Recebe conjunto e retorna a pontuação dele
+void fixa_cartas(MESA *mesa);   //Impede que jogadores repeguem as cartas
 
 struct conjunto
 {

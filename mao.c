@@ -44,7 +44,7 @@ MAO *inicia_mao(int nj,CARTA *baralho)
         mao->num_jogador=i;
         mao=mao->next;
     }
-    for(i=0;i<N_MAO_INICIAL*nj;i++)//distribuindo as cartas na mÃƒo
+    for(i=0;i<N_MAO_INICIAL*nj;i++)//distribuindo as cartas na mão
     {
         add_carta_mao(mao,baralho);
         mao=mao->next;

@@ -41,14 +41,11 @@ int main()
     {
         estado_jogo=turno(mao_jogador,mesa, baralho);
         mao_jogador = mao_jogador->next;
-        //INICIALIZAR TODOS AS CARTAS DA MESA COMO DA_MESA---------------------
+        fixa_cartas(mesa);
         clear();
     }
 	if(estado_jogo==1){
     	printf("O jogador %d foi o vencedor.\n",(mao_jogador->num_jogador)+1);
-	}
-    else{
-		//EXECUTA VERIFICAÇÃO DE VENCEDOR------------------------------------------
 	}
     pausa();
     return (0);
@@ -229,7 +226,7 @@ CARTA *Inicia_Baralho()
         {
             char nome_arquivo[LEN_NOME_ARQ];
             printf("Qual o nome do arquivo:(inclua o .txt !)\n>> ");
-            fgets(nome_arquivo,LEN_NOME_ARQ,stdin);
+            scanf(" %s", nome_arquivo);
             baralho=cria_baralho_arq(nome_arquivo);
             clear();
             if(baralho == NULL){
