@@ -91,7 +91,6 @@ void add_carta_mao(MAO *mao,CARTA *baralho)
     }
     carta->next=nova;
     
-    printf("A carta comprada foi: ");
 	imprime_carta(*carta);
     printf("\n");
 }
