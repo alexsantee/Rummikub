@@ -38,6 +38,19 @@ MESA *cria_mesa()
 		fprintf(stderr, "Falha ao reservar memória!\n");
 		return NULL;
 	}
+	
+	//TEMPORÁRIO---------------------------------------------------------------
+	CONJ *conj[3];
+	int i;
+	for(i=0;i<3;i++)
+	{
+	    conj[i]=cria_conjunto();
+	}
+	mesa->first=conj[0];
+	conj[0]->next=conj[1];
+	conj[1]->next=conj[2];
+	//-------------------------------------------------------------------------
+	
 	return mesa;
 }
 

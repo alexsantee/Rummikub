@@ -15,6 +15,7 @@ int turno(MAO *mao_jogador,MESA *mesa, CARTA *baralho);//precissa ser melhorado
 void printa_mesa(MESA *mesa);//função para printar a mesa atual
 CARTA *Inicia_Baralho(); /* determina o tipo de baralho, ja criando ele
                             ou pegando ele de algum arquivo que queiramos */
+void printa_mao(MAO *mao);
 void splash();
 
 int main()
@@ -106,12 +107,15 @@ int turno(MAO *mao_jogador,MESA *mesa, CARTA *baralho)
         }else{
             do{
                 printa_mesa(mesa);
-                printf("************************");
+                printf("************************\n");
                 printf("Opções de ações:\n");
                 printf("1.Jogar cartas da mão\n");
                 printf("2.Tirar carta da mesa\n");
-                if(fim==0){printf("3.Compra do Baralho e terminar o turno.\n>>");}//verificar se a regra do jogo nesta parte esta certa**************
-                else{printf("3.Terminar o turno\n>>");}
+                if(fim==0){printf("3.Compra do Baralho e terminar o turno.\n");}//verificar se a regra do jogo nesta parte esta certa**************
+                else{printf("3.Terminar o turno\n");}
+                printf("Sua mão:\n");
+                printa_mao(mao_jogador);
+                printf("\n>>");
                 scanf(" %c",&resp_turno);
                 clear();
                 }while(resp_turno>'3'||resp_turno<'1');
@@ -240,6 +244,18 @@ CARTA *Inicia_Baralho()
     pausa();
     clear();
     return (baralho);
+}
+
+void printa_mao(MAO *mao)
+{
+    CARTA *c;
+    c = mao->first;
+    while(c!=NULL)
+    {
+        imprime_carta(*c);
+        putchar(' ');
+        c=c->next;
+    }
 }
 
 void splash()
